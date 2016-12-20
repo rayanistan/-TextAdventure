@@ -18,6 +18,8 @@ import java.awt.*;
 
 public class MyGdxGame extends ApplicationAdapter {
 	private SpriteBatch batch;
+
+
 	private Animation animation2;
 	private TextureAtlas textureAtlas2;
 
@@ -28,33 +30,33 @@ public class MyGdxGame extends ApplicationAdapter {
 	private Sprite sprite;
 	private Texture texture;
 
-	private SpriteBatch batch2;
 
-	//private Sprite map;
-	//private Texture maptexture;
+
 	private OrthographicCamera camera;
 
 
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
+
+		//move right animation
 		textureAtlas = new TextureAtlas(Gdx.files.internal("walk-packed/pack.atlas"));
 		animation = new Animation(1/11f, textureAtlas.getRegions());
 
-		batch2 = new SpriteBatch();
+		//move left animation
 		textureAtlas2 = new TextureAtlas(Gdx.files.internal("walk2-packed/pack.atlas"));
 		animation2 = new Animation(1/11f, textureAtlas2.getRegions());
 
+		//misc
         font = new BitmapFont();
 		font.setColor(Color.WHITE);
 
+		//when not moving
 		texture = new Texture(Gdx.files.internal("stand.png"));
 		sprite = new Sprite(texture);
 
 
-		//maptexture = new Texture(Gdx.files.internal("map.png"));
-		//map = new Sprite(maptexture);
-		//map.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getWidth());
+
 
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
@@ -78,15 +80,17 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
-		//map.draw(batch);
 
 
-		if(Gdx.input.isKeyPressed(Input.Keys.D)){
+		if(Gdx.input.isKeyPressed(Input.Keys.A) && Gdx.input.isKeyPressed(Input.Keys.D) ){
+			sprite.draw(batch);
+		}
+		else if(Gdx.input.isKeyPressed(Input.Keys.D)){
 			x+=2;
 			batch.draw(animation.getKeyFrame(elapsedTime, true), x ,170 );
 
 		}
-		if(Gdx.input.isKeyPressed(Input.Keys.A)){
+		else if(Gdx.input.isKeyPressed(Input.Keys.A)){
          x-=2;
          batch.draw(animation2.getKeyFrame(elapsedTime, true), x, 170);
 
@@ -116,6 +120,6 @@ public class MyGdxGame extends ApplicationAdapter {
 		font.dispose();
 		texture.dispose();
 		textureAtlas2.dispose();
-		//maptexture.dispose();
+
 	}
 }
