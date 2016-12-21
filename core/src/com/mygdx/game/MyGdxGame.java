@@ -117,6 +117,7 @@ public class MyGdxGame extends ApplicationAdapter {
 			sprite.setTexture(weptexture);
 
 		}
+
 		//TODO: ^THE IF STATEMENT SHOULD CHANGE THE TEXTURE PERMANENTElY, UNTIL USER RE-CLICKS THE RIGHT BUTTON
 
 		switch (direction) {
