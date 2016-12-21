@@ -1,19 +1,13 @@
-package com.mygdx.game.states;
+package com.rayanistan.game.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.game.entities.Player;
-import com.mygdx.game.handlers.GameStateManager;
-import com.mygdx.game.utils.CameraUtils;
+import com.rayanistan.game.entities.Player;
+import com.rayanistan.game.handlers.GameStateManager;
+import com.rayanistan.game.utils.CameraUtils;
 
-/**
- * Created by creat on 12/20/2016.
- */
 public class PlayState extends AbstractState {
 
     private TextureAtlas atlas;
@@ -26,8 +20,9 @@ public class PlayState extends AbstractState {
         float height = Gdx.graphics.getHeight();
         cam.setToOrtho(false, width / 2, height / 2);
 
-        atlas = new TextureAtlas(Gdx.files.internal("atlas.atlas"));
+        atlas = app.assets.get("atlas.atlas");
         player = new Player(atlas);
+
     }
 
     @Override
@@ -46,8 +41,9 @@ public class PlayState extends AbstractState {
 
     @Override
     public void draw() {
-        Gdx.gl.glClearColor(255, 255, 255, 255);
+        Gdx.gl.glClearColor(1f, 1f, 1f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
 
         app.batch.setProjectionMatrix(cam.combined);
 
@@ -56,13 +52,9 @@ public class PlayState extends AbstractState {
         app.batch.end();
     }
 
-    @Override
-    public void resize(int width, int height) {
-
-    }
 
     @Override
     public void dispose() {
-
+        atlas.dispose();
     }
 }

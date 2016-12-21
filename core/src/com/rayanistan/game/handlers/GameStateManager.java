@@ -1,14 +1,12 @@
-package com.mygdx.game.handlers;
+package com.rayanistan.game.handlers;
 
-import com.mygdx.game.NotTextAdventure;
-import com.mygdx.game.states.AbstractState;
-import com.mygdx.game.states.PlayState;
+import com.rayanistan.game.NotTextAdventure;
+import com.rayanistan.game.states.AbstractState;
+import com.rayanistan.game.states.LoadingState;
+import com.rayanistan.game.states.PlayState;
 
 import java.util.Stack;
 
-/**
- * Created by creat on 12/20/2016.
- */
 public class GameStateManager {
 
     public enum State {
@@ -16,6 +14,9 @@ public class GameStateManager {
             public AbstractState getState(final GameStateManager gsm) {
                return new PlayState(gsm);
             }
+        },
+        LOADING {
+            public AbstractState getState(final GameStateManager gsm) {return new LoadingState(gsm); }
         };
 
         public abstract AbstractState getState(final GameStateManager gsms);
@@ -24,7 +25,7 @@ public class GameStateManager {
     // Have context reference to app
     private NotTextAdventure app;
 
-    // Have a stack of AbtractStates
+    // Have a stack of AbstractStates
     private Stack<AbstractState> states;
 
     public GameStateManager(final NotTextAdventure app) {

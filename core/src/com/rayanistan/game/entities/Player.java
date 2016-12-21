@@ -1,15 +1,10 @@
-package com.mygdx.game.entities;
+package com.rayanistan.game.entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.*;
 
 public class Player extends Sprite {
-
-    private TextureAtlas atlas;
 
     private Animation walkAnimation;
     private Animation swordWalkAnimation;
@@ -31,7 +26,6 @@ public class Player extends Sprite {
     private boolean isHoldingSword = false;
 
     public Player(TextureAtlas atlas) {
-        this.atlas = atlas;
 
         walkAnimation = new Animation(1 / 11f, atlas.findRegions("walk/walk"));
         swordWalkAnimation = new Animation(1 / 11f, atlas.findRegions("sword/sword"));
@@ -119,5 +113,4 @@ public class Player extends Sprite {
         }
 
     }
-
 }

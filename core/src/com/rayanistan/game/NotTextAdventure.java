@@ -1,9 +1,10 @@
-package com.mygdx.game;
+package com.rayanistan.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.*;
-import com.mygdx.game.handlers.GameStateManager;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.rayanistan.game.handlers.GameStateManager;
 
 public class NotTextAdventure extends ApplicationAdapter {
 
@@ -12,13 +13,16 @@ public class NotTextAdventure extends ApplicationAdapter {
 
     // Declare managers
     private GameStateManager gsm;
+    public AssetManager assets;
 
 
     @Override
     public void create() {
         batch = new SpriteBatch();
+
+        assets = new AssetManager();
         gsm = new GameStateManager(this);
-        gsm.setState(GameStateManager.State.PLAY);
+        gsm.setState(GameStateManager.State.LOADING);
     }
 
 
@@ -37,6 +41,7 @@ public class NotTextAdventure extends ApplicationAdapter {
     @Override
     public void dispose() {
         gsm.dispose();
+        assets.dispose();
         batch.dispose();
     }
 

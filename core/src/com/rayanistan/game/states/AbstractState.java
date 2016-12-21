@@ -1,8 +1,8 @@
-package com.mygdx.game.states;
+package com.rayanistan.game.states;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.mygdx.game.NotTextAdventure;
-import com.mygdx.game.handlers.GameStateManager;
+import com.rayanistan.game.NotTextAdventure;
+import com.rayanistan.game.handlers.GameStateManager;
 
 /**
  * Created by creat on 12/20/2016.
@@ -21,7 +21,7 @@ public abstract class AbstractState {
 
     public abstract void update(float dt);
     public abstract void draw();
-    public  void resize(int width, int height) {
+    public void resize(int width, int height) {
         cam.setToOrtho(false, width, height);
     }
     public abstract void dispose();
