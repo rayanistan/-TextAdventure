@@ -15,14 +15,16 @@ public class PlayState extends AbstractState {
 
     public PlayState(GameStateManager gsm) {
         super(gsm);
+    }
 
+    @Override
+    public void show() {
         float width = Gdx.graphics.getWidth();
         float height = Gdx.graphics.getHeight();
         cam.setToOrtho(false, width / 2, height / 2);
 
         atlas = app.assets.get("atlas.atlas");
         player = new Player(atlas);
-
     }
 
     @Override
@@ -40,10 +42,8 @@ public class PlayState extends AbstractState {
     }
 
     @Override
-    public void draw() {
-        Gdx.gl.glClearColor(1f, 1f, 1f, 1f);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
+    public void render(float dt) {
+        super.render(dt);
 
         app.batch.setProjectionMatrix(cam.combined);
 

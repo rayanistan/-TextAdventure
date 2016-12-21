@@ -21,6 +21,11 @@ public class LoadingState extends AbstractState {
         shapeRenderer = new ShapeRenderer();
 
         shapeRenderer.setProjectionMatrix(cam.combined);
+    }
+
+    @Override
+    public void show() {
+
         this.progress = 0f;
 
         queueAssets();
@@ -40,10 +45,9 @@ public class LoadingState extends AbstractState {
     }
 
     @Override
-    public void draw() {
+    public void render(float dt) {
 
-        Gdx.gl.glClearColor(1f, 1f, 1f, 1f);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        super.render(dt);
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(Color.BLACK);
