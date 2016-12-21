@@ -10,12 +10,12 @@ import com.rayanistan.game.handlers.GameStateManager;
 public abstract class AbstractState implements Screen {
 
     protected OrthographicCamera cam;
-    protected NotTextAdventure app;
+    protected NotTextAdventure game;
     protected GameStateManager gsm;
 
     protected AbstractState(final GameStateManager gsm) {
         this.gsm = gsm;
-        this.app = gsm.getApp();
+        this.game = gsm.getApp();
         cam = new OrthographicCamera();
     }
 

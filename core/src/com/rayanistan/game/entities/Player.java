@@ -3,114 +3,153 @@ package com.rayanistan.game.entities;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.rayanistan.game.states.PlayState;
+import com.rayanistan.game.utils.WorldUtils;
 
-public class Player extends Sprite {
+import static com.rayanistan.game.utils.WorldUtils.Constants.PPM;
 
-    private Animation walkAnimation;
-    private Animation swordWalkAnimation;
+public final class Player {
 
-    private TextureRegion idle;
-    private TextureRegion weaponIdle;
+    private Sprite sprite;
+    private Body body;
+    private PlayState state;
 
-    private float elapsedTime = 0;
+    private float animationTimer = 0;
 
     private enum State {
-        RIGHT,
-        LEFT,
-        STILL,
+        NOTHING {
+            public TextureRegion getFrame(TextureAtlas atlas, float timer) {
+                return new Animation(1 / 11f, atlas.findRegions("walk/walk")).getKeyFrame(timer, true);
+            }
+        },
+        SWORD {
+            public TextureRegion getFrame(TextureAtlas atlas, float timer) {
+                return new Animation(1 / 11f, atlas.findRegions("sword/sword")).getKeyFrame(timer, true);
+            }
+        },
+        NOTHING_IDLE {
+            public TextureRegion getFrame(TextureAtlas atlas, float timer) {
+                return atlas.findRegion("walk/walk_idle");
+            }
+        },
+        SWORD_IDLE {
+            public TextureRegion getFrame(TextureAtlas atlas, float timer) {
+                return atlas.findRegion("sword/sword_idle");
+            }
+        };
+
+        public abstract TextureRegion getFrame(TextureAtlas atlas, float timer);
     }
 
     private State previous;
     private State current;
 
-    private boolean isHoldingSword = false;
+    private boolean flipped = false;
 
-    public Player(TextureAtlas atlas) {
+    public Player(PlayState state) {
 
-        walkAnimation = new Animation(1 / 11f, atlas.findRegions("walk/walk"));
-        swordWalkAnimation = new Animation(1 / 11f, atlas.findRegions("sword/sword"));
+        this.state = state;
 
-        idle = atlas.findRegion("walk/walk_idle");
-        weaponIdle = atlas.findRegion("sword/sword_idle");
+        current = State.NOTHING;
+        previous = current;
 
-        current = State.STILL;
+        sprite = new Sprite();
+
+        initBody();
+    }
+
+    private void initBody() {
+        this.body = WorldUtils.createBox(state.world, 32, 32, 32,
+                32, false, sprite);
     }
 
     public void update(float dt) {
 
-        handleInput();
+        handleInput(dt);
 
+        handleAnimation(dt);
 
-        if (previous != current) {
-            elapsedTime = 0;
-        }
-
-
-        if (!isHoldingSword) {
-            switch (current) {
-                case STILL:
-                default:
-                    setRegion(idle);
-                    setBounds(0, 0, idle.getRegionWidth(), idle.getRegionHeight());
-                    break;
-                case RIGHT:
-                case LEFT:
-                    TextureRegion frame = walkAnimation.getKeyFrame(elapsedTime, true);
-                    setRegion(frame);
-                    setBounds(0, 0, frame.getRegionWidth(), frame.getRegionHeight());
-                    break;
-            }
-        }
-
-        else {
-            switch (current) {
-                case STILL:
-                default:
-                    setRegion(weaponIdle);
-                    setBounds(0, 0, weaponIdle.getRegionWidth(), weaponIdle.getRegionHeight());
-                    break;
-                case RIGHT:
-                case LEFT:
-                    TextureRegion frame = swordWalkAnimation.getKeyFrame(elapsedTime, true);
-                    setRegion(frame);
-                    setBounds(0, 0, frame.getRegionWidth(), frame.getRegionHeight());
-                    break;
-            }
-        }
-
-        elapsedTime += dt;
-
-        switch (current) {
-            case LEFT:
-                setFlip(true, false);
-                break;
-            default:
-            case STILL:
-            case RIGHT:
-                setFlip(false, false);
-                break;
-        }
+        sprite.setPosition(body.getPosition().x * PPM - sprite.getWidth() / 2,
+                body.getPosition().y * PPM - sprite.getHeight() / 2);
 
     }
 
-    private void handleInput() {
+    private void handleAnimation(float dt) {
+        if (previous != current) {
+            animationTimer = 0;
+        }
+
+        sprite.setRegion(current.getFrame(state.atlas, animationTimer));
+
+        sprite.setBounds(0, 0, sprite.getRegionWidth(), sprite.getRegionHeight());
+
+        animationTimer += dt;
+
+        sprite.setFlip(flipped, false);
+
+    }
+
+
+    private void handleInput(float dt) {
         previous = current;
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.Z)) {
-            isHoldingSword = !isHoldingSword;
-        }
+        boolean idle = false;
 
+        // MOVEMENT
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            current = State.LEFT;
+            flipped = true;
+            body.setLinearVelocity(-350 * dt, body.getLinearVelocity().y);
+        } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+            flipped = false;
+            body.setLinearVelocity(350 * dt, body.getLinearVelocity().y);
+        } else {
+            idle = true;
+            body.setLinearVelocity(0, body.getLinearVelocity().y);
         }
 
-        else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            current = State.RIGHT;
+
+        // JUMPING
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+            body.applyForceToCenter(0, 300, true);
         }
 
+
+        // SWITCHING BETWEEN SWORD AND NON SWORD
+        if (Gdx.input.isKeyJustPressed(Input.Keys.Z)) {
+            current = current == State.NOTHING || previous == State.NOTHING_IDLE ? State.SWORD : State.NOTHING;
+        }
+
+        // IF IDLE SWITCH TO IDLE VERSION OF STATE
+        if (idle) {
+            switch (current) {
+                case SWORD:
+                    current = State.SWORD_IDLE;
+                    break;
+                case NOTHING:
+                    current = State.NOTHING_IDLE;
+            }
+        }
         else {
-            current = State.STILL;
+            switch (current) {
+                case SWORD_IDLE:
+                    current = State.SWORD;
+                    break;
+                case NOTHING_IDLE:
+                    current = State.NOTHING;
+                    break;
+            }
         }
 
+
+    }
+
+    public void render(SpriteBatch batch) {
+        sprite.draw(batch);
+    }
+
+    public Vector2 getCenter() {
+        return new Vector2(body.getPosition().x * PPM, body.getPosition().y * PPM);
     }
 }
