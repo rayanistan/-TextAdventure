@@ -1,4 +1,4 @@
-package com.mygdx.game.utils;
+package com.rayanistan.game.utils;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.MathUtils;
