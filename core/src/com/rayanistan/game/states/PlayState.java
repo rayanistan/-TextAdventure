@@ -18,7 +18,6 @@ public class PlayState extends AbstractState {
 
     public TextureAtlas atlas;
     private Player player;
-    private Body ground;
 
     // Box2D Stuff
     public World world;
@@ -40,7 +39,7 @@ public class PlayState extends AbstractState {
         atlas = game.assets.get("atlas.atlas");
         player = new Player(this);
 
-        ground = WorldUtils.createBox(world, 32, 12, 32 * 4,
+        WorldUtils.createBox(world, 32, 12, 32 * 20,
                 32, true, null);
     }
 
@@ -49,11 +48,11 @@ public class PlayState extends AbstractState {
         // Update camera
         cameraUpdate();
 
-        // Update player
-        player.update(dt);
-
         // Update world
         world.step(1 / 60f, 6, 2);
+
+        // Update player
+        player.update(dt);
 
     }
 

@@ -1,6 +1,8 @@
 package com.rayanistan.game;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -33,6 +35,9 @@ public class NotTextAdventure extends Game {
     @Override
     public void render() {
         super.render();
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SEMICOLON)) DEBUG = !DEBUG;
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) Gdx.app.exit();
     }
 
     @Override
