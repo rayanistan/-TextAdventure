@@ -114,7 +114,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		}
 		if(Gdx.input.isButtonPressed(Input.Buttons.RIGHT)){
 			sprite.setBounds(0, 0, weptexture.getWidth(), weptexture.getHeight());
-			sprite.setTexture(weptexture);
+			sprite.setRegion(weptexture);
 
 		}
 
