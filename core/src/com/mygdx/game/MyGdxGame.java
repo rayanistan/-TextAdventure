@@ -3,7 +3,6 @@ package com.mygdx.game;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -13,23 +12,20 @@ import com.badlogic.gdx.math.Vector3;
 
 public class MyGdxGame extends ApplicationAdapter {
 
+	// Declare batches for drawing
 	private SpriteBatch batch;
+
+	// Declare animation + texture atlas + sprite + textures
 	private Animation animation2;
 	private TextureAtlas textureAtlas2;
-
-
-	private TextureAtlas textureAtlas;
-	private Animation animation;
-	private float elapsedTime = 0;
-	private BitmapFont font;
-
 	private Sprite sprite;
 	private Texture texture;
+	private Texture weaponTexture;
 
-
-	private Texture weptexture;
+	private float elapsedTime = 0;
 
 	private OrthographicCamera camera;
+	private boolean isEquipped = false;
 
 
 	private enum Direction {
@@ -44,26 +40,16 @@ public class MyGdxGame extends ApplicationAdapter {
 	@Override
 	public void create() {
 		batch = new SpriteBatch();
-		textureAtlas = new TextureAtlas(Gdx.files.internal("walk-packed/pack.atlas"));
-		animation = new Animation(1 / 11f, textureAtlas.getRegions());
 
 		textureAtlas2 = new TextureAtlas(Gdx.files.internal("walk2-packed/pack.atlas"));
-		animation2 = new Animation(1 / 11f, textureAtlas2.getRegions());
-
-
-		//misc
-		font = new BitmapFont();
-		font.setColor(Color.WHITE);
-
+		animation2 = new Animation(1 / 11f, textureAtlas2.findRegions("run"));
 
 		texture = new Texture(Gdx.files.internal("stand.png"));
 		sprite = new Sprite(texture);
 
-		weptexture = new Texture(Gdx.files.internal("SWORD.png"));
-
+		weaponTexture = new Texture(Gdx.files.internal("SWORD.png"));
 
 		direction = Direction.STILL;
-
 
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
@@ -89,14 +75,11 @@ public class MyGdxGame extends ApplicationAdapter {
 
 
 		batch.setProjectionMatrix(camera.combined);
-		batch.begin();
 
 
 
-        if(Gdx.input.isButtonPressed(Input.Buttons.RIGHT)){
-            sprite.setBounds(0, 0, weptexture.getWidth(), weptexture.getHeight());
-            sprite.setRegion(weptexture);
-
+        if(Gdx.input.isKeyJustPressed(Input.Keys.Z)){
+            isEquipped = !isEquipped;
         }
 		else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
 			x += 2;
@@ -130,18 +113,20 @@ public class MyGdxGame extends ApplicationAdapter {
 				break;
 		}
 
-
+		if (isEquipped) {
+			sprite.setBounds(0, 0, weaponTexture.getWidth(), weaponTexture.getHeight());
+			sprite.setRegion(weaponTexture);
+		}
 
 		sprite.setX(x);
 		sprite.setY(170);
 
 
+		batch.begin();
 		sprite.draw(batch);
-		elapsedTime += Gdx.graphics.getDeltaTime();
-
-
 		batch.end();
 
+		elapsedTime += Gdx.graphics.getDeltaTime();
 	}
 	@Override
 	public void resize ( int width, int height){
@@ -153,12 +138,9 @@ public class MyGdxGame extends ApplicationAdapter {
 	@Override
 	public void dispose(){
 		batch.dispose();
-		textureAtlas.dispose();
-		font.dispose();
 		texture.dispose();
 		textureAtlas2.dispose();
-		weptexture.dispose();
-
+		weaponTexture.dispose();
 	}
 
 
