@@ -2,17 +2,14 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
-
-import javax.xml.soap.Text;
-import java.awt.*;
 
 public class MyGdxGame extends ApplicationAdapter {
 
@@ -96,7 +93,12 @@ public class MyGdxGame extends ApplicationAdapter {
 
 
 
-		if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+        if(Gdx.input.isKeyPressed(Input.Keys.Z)){
+            sprite.setBounds(0, 0, weptexture.getWidth(), weptexture.getHeight());
+            sprite.setRegion(weptexture);
+
+        }
+		else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
 			x += 2;
 			TextureRegion frame = animation2.getKeyFrame(elapsedTime, true);
 			sprite.setBounds(frame.getRegionX(), frame.getRegionY(), frame.getRegionWidth(), frame.getRegionHeight());
@@ -112,11 +114,7 @@ public class MyGdxGame extends ApplicationAdapter {
 			sprite.setBounds(0, 0, texture.getWidth(), texture.getHeight());
 			sprite.setRegion(texture);
 		}
-		if(Gdx.input.isButtonPressed(Input.Buttons.RIGHT)){
-			sprite.setBounds(0, 0, weptexture.getWidth(), weptexture.getHeight());
-			sprite.setRegion(weptexture);
 
-		}
 
 		//TODO: ^THE IF STATEMENT SHOULD CHANGE THE TEXTURE PERMANENTElY, UNTIL USER RE-CLICKS THE RIGHT BUTTON
 
