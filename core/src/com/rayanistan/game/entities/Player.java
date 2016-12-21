@@ -2,9 +2,22 @@ package com.rayanistan.game.entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.rayanistan.game.states.PlayState;
+import com.rayanistan.game.utils.WorldUtils;
 
-public class Player extends Sprite {
+import static com.rayanistan.game.utils.WorldUtils.Constants.PPM;
+
+public final class Player {
+
+    private Sprite sprite;
+    private Body body;
+    private PlayState state;
 
     private Animation walkAnimation;
     private Animation swordWalkAnimation;
@@ -12,7 +25,7 @@ public class Player extends Sprite {
     private TextureRegion idle;
     private TextureRegion weaponIdle;
 
-    private float elapsedTime = 0;
+    private float animationTimer = 0;
 
     private enum State {
         RIGHT,
@@ -25,24 +38,43 @@ public class Player extends Sprite {
 
     private boolean isHoldingSword = false;
 
-    public Player(TextureAtlas atlas) {
+    public Player(PlayState state) {
 
-        walkAnimation = new Animation(1 / 11f, atlas.findRegions("walk/walk"));
-        swordWalkAnimation = new Animation(1 / 11f, atlas.findRegions("sword/sword"));
+        this.state = state;
 
-        idle = atlas.findRegion("walk/walk_idle");
-        weaponIdle = atlas.findRegion("sword/sword_idle");
+        walkAnimation = new Animation(1 / 11f, state.atlas.findRegions("walk/walk"));
+        swordWalkAnimation = new Animation(1 / 11f, state.atlas.findRegions("sword/sword"));
+
+        idle = state.atlas.findRegion("walk/walk_idle");
+        weaponIdle = state.atlas.findRegion("sword/sword_idle");
 
         current = State.STILL;
+        previous = State.STILL;
+
+        sprite = new Sprite(idle);
+
+        initBody();
+    }
+
+    private void initBody() {
+        this.body = WorldUtils.createBox(state.world, 32, 32, 32,
+                32, false, sprite);
     }
 
     public void update(float dt) {
 
-        handleInput();
+        handleInput(dt);
 
+        handleAnimation(dt);
 
+        sprite.setPosition(body.getPosition().x * PPM - sprite.getWidth() / 2,
+                body.getPosition().y * PPM - sprite.getHeight() / 2);
+
+    }
+
+    private void handleAnimation(float dt) {
         if (previous != current) {
-            elapsedTime = 0;
+            animationTimer = 0;
         }
 
 
@@ -50,14 +82,14 @@ public class Player extends Sprite {
             switch (current) {
                 case STILL:
                 default:
-                    setRegion(idle);
-                    setBounds(0, 0, idle.getRegionWidth(), idle.getRegionHeight());
+                    sprite.setRegion(idle);
+                    sprite.setBounds(0, 0, idle.getRegionWidth(), idle.getRegionHeight());
                     break;
                 case RIGHT:
                 case LEFT:
-                    TextureRegion frame = walkAnimation.getKeyFrame(elapsedTime, true);
-                    setRegion(frame);
-                    setBounds(0, 0, frame.getRegionWidth(), frame.getRegionHeight());
+                    TextureRegion frame = walkAnimation.getKeyFrame(animationTimer, true);
+                    sprite.setRegion(frame);
+                    sprite.setBounds(0, 0, frame.getRegionWidth(), frame.getRegionHeight());
                     break;
             }
         }
@@ -66,34 +98,33 @@ public class Player extends Sprite {
             switch (current) {
                 case STILL:
                 default:
-                    setRegion(weaponIdle);
-                    setBounds(0, 0, weaponIdle.getRegionWidth(), weaponIdle.getRegionHeight());
+                    sprite.setRegion(weaponIdle);
+                    sprite.setBounds(0, 0, weaponIdle.getRegionWidth(), weaponIdle.getRegionHeight());
                     break;
                 case RIGHT:
                 case LEFT:
-                    TextureRegion frame = swordWalkAnimation.getKeyFrame(elapsedTime, true);
-                    setRegion(frame);
-                    setBounds(0, 0, frame.getRegionWidth(), frame.getRegionHeight());
+                    TextureRegion frame = swordWalkAnimation.getKeyFrame(animationTimer, true);
+                    sprite.setRegion(frame);
+                    sprite.setBounds(0, 0, frame.getRegionWidth(), frame.getRegionHeight());
                     break;
             }
         }
 
-        elapsedTime += dt;
+        animationTimer += dt;
 
         switch (current) {
             case LEFT:
-                setFlip(true, false);
+                sprite.setFlip(true, false);
                 break;
             default:
             case STILL:
             case RIGHT:
-                setFlip(false, false);
+                sprite.setFlip(false, false);
                 break;
         }
-
     }
 
-    private void handleInput() {
+    private void handleInput(float dt) {
         previous = current;
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.Z)) {
@@ -102,15 +133,28 @@ public class Player extends Sprite {
 
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             current = State.LEFT;
+
+            body.setLinearVelocity(-350 * dt , body.getLinearVelocity().y);
         }
 
         else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
             current = State.RIGHT;
+
+            body.setLinearVelocity(350 * dt, body.getLinearVelocity().y);
         }
 
         else {
             current = State.STILL;
-        }
 
+            body.setLinearVelocity(0, body.getLinearVelocity().y);
+        }
+    }
+
+    public void render(SpriteBatch batch) {
+        sprite.draw(batch);
+    }
+
+    public Vector2 getCenter() {
+        return new Vector2(body.getPosition().x * PPM, body.getPosition().y * PPM);
     }
 }

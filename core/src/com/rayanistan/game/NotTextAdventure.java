@@ -3,12 +3,17 @@ package com.rayanistan.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.rayanistan.game.handlers.GameStateManager;
 
 public class NotTextAdventure extends Game {
 
+    // DEBUG
+    public static boolean DEBUG = true;
+
     // Declare batches for drawing
     public SpriteBatch batch;
+    public ShapeRenderer shapeRenderer;
 
     // Declare managers
     private GameStateManager gsm;
@@ -18,6 +23,7 @@ public class NotTextAdventure extends Game {
     @Override
     public void create() {
         batch = new SpriteBatch();
+        shapeRenderer = new ShapeRenderer();
 
         assets = new AssetManager();
         gsm = new GameStateManager(this);
@@ -31,6 +37,7 @@ public class NotTextAdventure extends Game {
 
     @Override
     public void dispose() {
+        shapeRenderer.dispose();
         batch.dispose();
         assets.dispose();
         gsm.dispose();

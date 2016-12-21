@@ -1,20 +1,34 @@
 package com.rayanistan.game.states;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.World;
 import com.rayanistan.game.entities.Player;
 import com.rayanistan.game.handlers.GameStateManager;
 import com.rayanistan.game.utils.CameraUtils;
+import com.rayanistan.game.utils.WorldUtils;
+
+import static com.rayanistan.game.NotTextAdventure.DEBUG;
+import static com.rayanistan.game.utils.WorldUtils.Constants.PPM;
 
 public class PlayState extends AbstractState {
 
-    private TextureAtlas atlas;
+    public TextureAtlas atlas;
     private Player player;
+    private Body ground;
+
+    // Box2D Stuff
+    public World world;
+    private Box2DDebugRenderer debugRenderer;
 
     public PlayState(GameStateManager gsm) {
         super(gsm);
+
+        world = new World(new Vector2(0, -9.8f), true);
+        debugRenderer = new Box2DDebugRenderer();
     }
 
     @Override
@@ -23,8 +37,11 @@ public class PlayState extends AbstractState {
         float height = Gdx.graphics.getHeight();
         cam.setToOrtho(false, width / 2, height / 2);
 
-        atlas = app.assets.get("atlas.atlas");
-        player = new Player(atlas);
+        atlas = game.assets.get("atlas.atlas");
+        player = new Player(this);
+
+        ground = WorldUtils.createBox(world, 32, 12, 32 * 4,
+                32, true, null);
     }
 
     @Override
@@ -34,27 +51,35 @@ public class PlayState extends AbstractState {
 
         // Update player
         player.update(dt);
+
+        // Update world
+        world.step(1 / 60f, 6, 2);
+
     }
 
     private void cameraUpdate() {
-        Vector2 target = new Vector2(player.getX() + player.getWidth() / 2, player.getY() + player.getHeight() / 2);
-        CameraUtils.lerpToTarget(cam, target);
+        CameraUtils.lerpToTarget(cam, player.getCenter());
     }
 
     @Override
     public void render(float dt) {
         super.render(dt);
 
-        app.batch.setProjectionMatrix(cam.combined);
+        game.batch.setProjectionMatrix(cam.combined);
 
-        app.batch.begin();
-        player.draw(app.batch);
-        app.batch.end();
+        game.batch.begin();
+        player.render(game.batch);
+        game.batch.end();
+
+        if (DEBUG)
+            debugRenderer.render(world, cam.combined.cpy().scl(PPM));
     }
 
 
     @Override
     public void dispose() {
         atlas.dispose();
+        world.dispose();
+        debugRenderer.dispose();
     }
 }
