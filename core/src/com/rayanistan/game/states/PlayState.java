@@ -12,6 +12,7 @@ import com.rayanistan.game.utils.CameraUtils;
 import com.rayanistan.game.utils.WorldUtils;
 
 import static com.rayanistan.game.NotTextAdventure.DEBUG;
+import static com.rayanistan.game.NotTextAdventure.TITLE;
 import static com.rayanistan.game.utils.WorldUtils.Constants.PPM;
 
 public class PlayState extends AbstractState {
@@ -53,6 +54,9 @@ public class PlayState extends AbstractState {
 
         // Update player
         player.update(dt);
+
+        // Display framerate
+        Gdx.graphics.setTitle(TITLE + " FPS: " + Gdx.graphics.getFramesPerSecond() );
 
     }
 

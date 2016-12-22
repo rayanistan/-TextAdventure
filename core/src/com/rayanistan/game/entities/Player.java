@@ -2,6 +2,7 @@ package com.rayanistan.game.entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -10,57 +11,57 @@ import com.rayanistan.game.utils.WorldUtils;
 
 import static com.rayanistan.game.utils.WorldUtils.Constants.PPM;
 
-public final class Player {
+    public final class Player {
 
-    private Sprite sprite;
-    private Body body;
-    private PlayState state;
+        private Sprite sprite;
+        private Body body;
+        private PlayState state;
 
-    private float animationTimer = 0;
+        private float animationTimer = 0;
 
-    private enum State {
-        NOTHING {
-            public TextureRegion getFrame(TextureAtlas atlas, float timer) {
-                return new Animation(1 / 11f, atlas.findRegions("walk")).getKeyFrame(timer, true);
-            }
-        },
-        SWORD {
-            public TextureRegion getFrame(TextureAtlas atlas, float timer) {
-                return new Animation(1 / 11f, atlas.findRegions("s")).getKeyFrame(timer, true);
-            }
-        },
-        NOTHING_IDLE {
-            public TextureRegion getFrame(TextureAtlas atlas, float timer) {
-                return new Animation(5/3f, atlas.findRegions("nothing_idle")).getKeyFrame(timer, true);
-            }
-        },
-        SWORD_IDLE {
-            public TextureRegion getFrame(TextureAtlas atlas, float timer) {
-                return new Animation(5/3f, atlas.findRegions("sword_idle")).getKeyFrame(timer, true);
-            }
-        };
+        private enum State {
+            NOTHING {
+                public TextureRegion getFrame(TextureAtlas atlas, float timer) {
+                    return new Animation(1 / 11f, atlas.findRegions("walk")).getKeyFrame(timer, true);
+                }
+            },
+            SWORD {
+                public TextureRegion getFrame(TextureAtlas atlas, float timer) {
+                    return new Animation(1 / 11f, atlas.findRegions("s")).getKeyFrame(timer, true);
+                }
+            },
+            NOTHING_IDLE {
+                public TextureRegion getFrame(TextureAtlas atlas, float timer) {
+                    return new Animation(5/3f, atlas.findRegions("nothing_idle")).getKeyFrame(timer, true);
+                }
+            },
+            SWORD_IDLE {
+                public TextureRegion getFrame(TextureAtlas atlas, float timer) {
+                    return new Animation(5/3f, atlas.findRegions("sword_idle")).getKeyFrame(timer, true);
+                }
+            };
 
-        public abstract TextureRegion getFrame(TextureAtlas atlas, float timer);
-    }
+            public abstract TextureRegion getFrame(TextureAtlas atlas, float timer);
+        }
 
-    private State previous;
-    private State current;
+        private State previous;
+        private State current;
 
-    private boolean flipped = false;
+        private boolean flipped = false;
 
-    public Player(PlayState state) {
+        public Player(PlayState state) {
 
-        this.state = state;
+            this.state = state;
 
-        current = State.NOTHING;
-        previous = current;
+            current = State.NOTHING;
+            previous = current;
 
 
-        sprite = new Sprite();
+            sprite = new Sprite();
 
-        this.body = WorldUtils.createBox(state.world, 32, 32, 32,
-                32, false, sprite);
-    }
+            this.body = WorldUtils.createBox(state.world, 32, 32, 32,
+                    32, false, sprite);
+        }
 
     public void update(float dt) {
 
@@ -68,8 +69,10 @@ public final class Player {
 
         handleAnimation(dt);
 
-        sprite.setPosition(body.getPosition().x * PPM - sprite.getRegionHeight() / 2,
-                body.getPosition().y * PPM - sprite.getRegionHeight() / 2 - 6);
+        sprite.setPosition(body.getPosition().x * PPM - sprite.getWidth() / 2,
+                body.getPosition().y * PPM - 16);
+
+        sprite.setOrigin(body.getPosition().x, body.getPosition().y);
 
     }
 
@@ -80,7 +83,7 @@ public final class Player {
 
         sprite.setRegion(current.getFrame(state.atlas, animationTimer));
 
-        sprite.setBounds(0, 0, sprite.getRegionWidth(), sprite.getRegionHeight());
+        sprite.setBounds(0, -6, sprite.getRegionWidth(), sprite.getRegionHeight());
 
         animationTimer += dt;
 

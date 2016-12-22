@@ -9,6 +9,11 @@ import com.rayanistan.game.handlers.GameStateManager;
 
 public class NotTextAdventure extends Game {
 
+    // Application Constant
+    public static final int WIDTH = 720;
+    public static final int HEIGHT = 480;
+    public static final String TITLE = "~TextAdventure";
+
     // DEBUG
     public static boolean DEBUG = true;
 
