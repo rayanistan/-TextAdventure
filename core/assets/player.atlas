@@ -17,14 +17,14 @@ nothing_idle
   size: 13, 21
   orig: 23, 27
   offset: 5, 0
-  index: 1
+  index: 2
 nothing_idle
   rotate: false
   xy: 53, 4
   size: 13, 21
   orig: 23, 27
   offset: 5, 0
-  index: 2
+  index: 1
 nothing_idle
   rotate: false
   xy: 56, 27
@@ -115,14 +115,14 @@ sword_idle
   size: 23, 21
   orig: 30, 23
   offset: 4, 0
-  index: 1
+  index: 2
 sword_idle
   rotate: false
   xy: 31, 27
   size: 23, 21
   orig: 30, 23
   offset: 4, 0
-  index: 2
+  index: 1
 sword_idle
   rotate: false
   xy: 28, 4
