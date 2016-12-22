@@ -55,6 +55,7 @@ public final class Player {
         current = State.NOTHING;
         previous = current;
 
+
         sprite = new Sprite();
 
         this.body = WorldUtils.createBox(state.world, 32, 32, 32,
@@ -67,8 +68,8 @@ public final class Player {
 
         handleAnimation(dt);
 
-        sprite.setPosition(body.getPosition().x * PPM - sprite.getRegionWidth() / 2,
-                body.getPosition().y * PPM - sprite.getRegionHeight() / 2 - 4);
+        sprite.setPosition(body.getPosition().x * PPM - sprite.getWidth() / 2,
+                body.getPosition().y * PPM - sprite.getHeight() / 2);
 
     }
 
