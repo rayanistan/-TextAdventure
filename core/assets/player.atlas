@@ -13,11 +13,25 @@ nothing_idle
   index: 0
 nothing_idle
   rotate: false
+  xy: 53, 4
+  size: 13, 21
+  orig: 23, 27
+  offset: 5, 0
+  index: 1
+nothing_idle
+  rotate: false
+  xy: 53, 4
+  size: 13, 21
+  orig: 23, 27
+  offset: 5, 0
+  index: 2
+nothing_idle
+  rotate: false
   xy: 56, 27
   size: 13, 21
   orig: 30, 27
   offset: 7, 0
-  index: 1
+  index: 3
 s
   rotate: false
   xy: 2, 99
@@ -97,11 +111,25 @@ sword_idle
   index: 0
 sword_idle
   rotate: false
+  xy: 31, 27
+  size: 23, 21
+  orig: 30, 23
+  offset: 4, 0
+  index: 1
+sword_idle
+  rotate: false
+  xy: 31, 27
+  size: 23, 21
+  orig: 30, 23
+  offset: 4, 0
+  index: 2
+sword_idle
+  rotate: false
   xy: 28, 4
   size: 23, 21
   orig: 31, 26
   offset: 5, 0
-  index: 1
+  index: 3
 walk
   rotate: false
   xy: 59, 75

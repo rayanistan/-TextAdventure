@@ -16,7 +16,6 @@ import static com.rayanistan.game.utils.WorldUtils.Constants.PPM;
         private Sprite sprite;
         private Body body;
         private PlayState state;
-
         private float animationTimer = 0;
 
         private enum State {
