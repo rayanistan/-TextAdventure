@@ -21,22 +21,22 @@ public final class Player {
     private enum State {
         NOTHING {
             public TextureRegion getFrame(TextureAtlas atlas, float timer) {
-                return new Animation(1 / 11f, atlas.findRegions("walk/walk")).getKeyFrame(timer, true);
+                return new Animation(1 / 11f, atlas.findRegions("walk")).getKeyFrame(timer, true);
             }
         },
         SWORD {
             public TextureRegion getFrame(TextureAtlas atlas, float timer) {
-                return new Animation(1 / 11f, atlas.findRegions("sword/sword")).getKeyFrame(timer, true);
+                return new Animation(1 / 11f, atlas.findRegions("s")).getKeyFrame(timer, true);
             }
         },
         NOTHING_IDLE {
             public TextureRegion getFrame(TextureAtlas atlas, float timer) {
-                return atlas.findRegion("walk/walk_idle");
+                return new Animation(5/3f, atlas.findRegions("nothing_idle")).getKeyFrame(timer, true);
             }
         },
         SWORD_IDLE {
             public TextureRegion getFrame(TextureAtlas atlas, float timer) {
-                return atlas.findRegion("sword/sword_idle");
+                return new Animation(5/3f, atlas.findRegions("sword_idle")).getKeyFrame(timer, true);
             }
         };
 
@@ -57,10 +57,6 @@ public final class Player {
 
         sprite = new Sprite();
 
-        initBody();
-    }
-
-    private void initBody() {
         this.body = WorldUtils.createBox(state.world, 32, 32, 32,
                 32, false, sprite);
     }
@@ -71,8 +67,8 @@ public final class Player {
 
         handleAnimation(dt);
 
-        sprite.setPosition(body.getPosition().x * PPM - sprite.getWidth() / 2,
-                body.getPosition().y * PPM - sprite.getHeight() / 2);
+        sprite.setPosition(body.getPosition().x * PPM - sprite.getRegionWidth() / 2,
+                body.getPosition().y * PPM - sprite.getRegionHeight() / 2 - 4);
 
     }
 
@@ -91,11 +87,8 @@ public final class Player {
 
     }
 
-
     private void handleInput(float dt) {
         previous = current;
-
-        boolean idle = false;
 
         // MOVEMENT
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
@@ -105,7 +98,6 @@ public final class Player {
             flipped = false;
             body.setLinearVelocity(350 * dt, body.getLinearVelocity().y);
         } else {
-            idle = true;
             body.setLinearVelocity(0, body.getLinearVelocity().y);
         }
 
@@ -122,7 +114,7 @@ public final class Player {
         }
 
         // IF IDLE SWITCH TO IDLE VERSION OF STATE
-        if (idle) {
+        if (body.getLinearVelocity().x == 0) {
             switch (current) {
                 case SWORD:
                     current = State.SWORD_IDLE;

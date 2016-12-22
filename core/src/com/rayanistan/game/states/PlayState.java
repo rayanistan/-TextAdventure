@@ -36,7 +36,7 @@ public class PlayState extends AbstractState {
         float height = Gdx.graphics.getHeight();
         cam.setToOrtho(false, width / 2, height / 2);
 
-        atlas = game.assets.get("atlas.atlas");
+        atlas = game.assets.get("atlas.pack");
         player = new Player(this);
 
         WorldUtils.createBox(world, 32, 12, 32 * 20,

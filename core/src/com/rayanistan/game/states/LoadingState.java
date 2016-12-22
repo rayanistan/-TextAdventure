@@ -28,7 +28,7 @@ public class LoadingState extends AbstractState {
     }
 
     private void queueAssets() {
-        game.assets.load("atlas.atlas", TextureAtlas.class);
+        game.assets.load("atlas.pack", TextureAtlas.class);
     }
 
     @Override
