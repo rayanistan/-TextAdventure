@@ -31,12 +31,12 @@ import static com.rayanistan.game.utils.WorldUtils.Constants.PPM;
             },
             NOTHING_IDLE {
                 public TextureRegion getFrame(TextureAtlas atlas, float timer) {
-                    return new Animation(5/3f, atlas.findRegions("nothing_idle")).getKeyFrame(timer, true);
+                    return new Animation(1f, atlas.findRegions("nothing_idle")).getKeyFrame(timer, true);
                 }
             },
             SWORD_IDLE {
                 public TextureRegion getFrame(TextureAtlas atlas, float timer) {
-                    return new Animation(5/3f, atlas.findRegions("sword_idle")).getKeyFrame(timer, true);
+                    return new Animation(1f, atlas.findRegions("sword_idle")).getKeyFrame(timer, true);
                 }
             };
 
