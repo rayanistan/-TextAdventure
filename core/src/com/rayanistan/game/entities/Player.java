@@ -68,8 +68,8 @@ public final class Player {
 
         handleAnimation(dt);
 
-        sprite.setPosition(body.getPosition().x * PPM - sprite.getWidth() / 2,
-                body.getPosition().y * PPM - sprite.getHeight() / 2);
+        sprite.setPosition(body.getPosition().x * PPM - sprite.getRegionHeight() / 2,
+                body.getPosition().y * PPM - sprite.getRegionHeight() / 2 - 6);
 
     }
 
