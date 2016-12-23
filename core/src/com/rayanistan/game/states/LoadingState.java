@@ -5,38 +5,46 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
-import com.rayanistan.game.handlers.GameStateManager;
+import com.rayanistan.game.NotTextAdventure;
+
+import static com.rayanistan.game.NotTextAdventure.V_HEIGHT;
+import static com.rayanistan.game.NotTextAdventure.V_WIDTH;
 
 public class LoadingState extends AbstractState {
 
+    // Float that keeps the progress of the amount of assets loaded
     private float progress;
 
-    public LoadingState(final GameStateManager gsm) {
-        super(gsm);
+    // Public ctor
+    public LoadingState(final NotTextAdventure app) {
+        super(app);
 
-        cam.setToOrtho(false, Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
+        cam.setToOrtho(false, V_WIDTH, V_HEIGHT);
 
-        game.shapeRenderer.setProjectionMatrix(cam.combined);
     }
 
     @Override
     public void show() {
+        app.shapeRenderer.setProjectionMatrix(cam.combined);
 
         this.progress = 0f;
 
+        // Begins to load assets used in the app
         queueAssets();
     }
 
     private void queueAssets() {
-        game.assets.load("player.atlas", TextureAtlas.class);
+        app.assets.load("sprites/player.atlas", TextureAtlas.class);
     }
 
     @Override
     public void update(float dt) {
-        progress = MathUtils.lerp(progress, game.assets.getProgress(), .1f);
+        // Use linear interpolation to get a smooth loading bar
+        progress = MathUtils.lerp(progress, app.assets.getProgress(), .1f);
 
-        if (game.assets.update() && progress >= game.assets.getProgress() - .00001f) {
-            gsm.setState(GameStateManager.State.PLAY);
+        // If finished updating & progress bar is complete, then change state to PLAY
+        if (app.assets.update() && progress >= app.assets.getProgress() - .00001f) {
+            app.setScreen(app.playState);
         }
     }
 
@@ -45,13 +53,14 @@ public class LoadingState extends AbstractState {
 
         super.render(dt);
 
-        game.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        game.shapeRenderer.setColor(Color.BLACK);
-        game.shapeRenderer.rect(32, cam.viewportHeight / 2 - 8, cam.viewportWidth - 64, 16);
+        // Draw loading bar
+        app.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        app.shapeRenderer.setColor(Color.BLACK);
+        app.shapeRenderer.rect(32, cam.viewportHeight / 2 - 8, cam.viewportWidth - 64, 16);
 
-        game.shapeRenderer.setColor(Color.BLUE);
-        game.shapeRenderer.rect(32, cam.viewportHeight / 2 - 8, progress * (cam.viewportWidth - 64), 16);
-        game.shapeRenderer.end();
+        app.shapeRenderer.setColor(Color.BLUE);
+        app.shapeRenderer.rect(32, cam.viewportHeight / 2 - 8, progress * (cam.viewportWidth - 64), 16);
+        app.shapeRenderer.end();
     }
 
     @Override

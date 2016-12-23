@@ -3,42 +3,40 @@ package com.rayanistan.game.states;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.rayanistan.game.NotTextAdventure;
 import com.rayanistan.game.entities.Player;
-import com.rayanistan.game.handlers.GameStateManager;
 import com.rayanistan.game.utils.CameraUtils;
 import com.rayanistan.game.utils.WorldUtils;
 
-import static com.rayanistan.game.NotTextAdventure.DEBUG;
-import static com.rayanistan.game.NotTextAdventure.TITLE;
-import static com.rayanistan.game.utils.WorldUtils.Constants.PPM;
+import static com.rayanistan.game.NotTextAdventure.*;
+import static com.rayanistan.game.utils.WorldUtils.Constants.*;
 
 public class PlayState extends AbstractState {
 
-    public TextureAtlas atlas;
+    // Declare player class that holds a box2d body with a sprite to render over it
     private Player player;
 
-    // Box2D Stuff
-    public World world;
+    // Box2D world handles physics simulation
+    private World world;
+
+    // Debug renderer handle rendering debug lines if DEBUG
     private Box2DDebugRenderer debugRenderer;
 
-    public PlayState(GameStateManager gsm) {
-        super(gsm);
+    // Public ctor
+    public PlayState(final NotTextAdventure app) {
+        super(app);
 
         world = new World(new Vector2(0, -9.8f), true);
         debugRenderer = new Box2DDebugRenderer();
+
+        cam.setToOrtho(false, V_WIDTH, V_HEIGHT);
     }
 
     @Override
     public void show() {
-        float width = Gdx.graphics.getWidth();
-        float height = Gdx.graphics.getHeight();
-        cam.setToOrtho(false, width / 2, height / 2);
-
-        atlas = game.assets.get("player.atlas");
-        player = new Player(this);
+        player = new Player(world, (TextureAtlas) app.assets.get("sprites/player.atlas"));
 
         WorldUtils.createBox(world, 32, 12, 32 * 20,
                 32, true, null);
@@ -49,15 +47,14 @@ public class PlayState extends AbstractState {
         // Update camera
         cameraUpdate();
 
-        // Update world
-        world.step(1 / 60f, 6, 2);
+        // Update physics simulation
+        world.step(STEP, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
 
-        // Update player
+        // Update player's sprite
         player.update(dt);
 
-        // Display framerate
+        // Display frame rate
         Gdx.graphics.setTitle(TITLE + " FPS: " + Gdx.graphics.getFramesPerSecond() );
-
     }
 
     private void cameraUpdate() {
@@ -68,11 +65,11 @@ public class PlayState extends AbstractState {
     public void render(float dt) {
         super.render(dt);
 
-        game.batch.setProjectionMatrix(cam.combined);
+        app.batch.setProjectionMatrix(cam.combined);
 
-        game.batch.begin();
-        player.render(game.batch);
-        game.batch.end();
+        app.batch.begin();
+        player.render(app.batch);
+        app.batch.end();
 
         if (DEBUG)
             debugRenderer.render(world, cam.combined.cpy().scl(PPM));
@@ -81,7 +78,7 @@ public class PlayState extends AbstractState {
 
     @Override
     public void dispose() {
-        atlas.dispose();
+        player.dispose();
         world.dispose();
         debugRenderer.dispose();
     }
