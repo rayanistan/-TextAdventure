@@ -5,11 +5,9 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
-/**
- * Created by creat on 12/20/2016.
- */
 public final class CameraUtils {
 
+    // Use linear interpolation to shift camera towards a target position
     public static void lerpToTarget(Camera cam, Vector2 target) {
         Vector3 position = cam.position;
         position.x = MathUtils.lerp(position.x, target.x, 0.1f);
