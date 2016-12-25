@@ -15,7 +15,7 @@ public class DesktopLauncher {
 		// Create configuration for application
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 
-		// Tell texture packer to create a player.atlas for all of the player frames in /frames
+		// Tell texture packer to create a player.atlas for all of the player frames in /sprites/player_frames
 		TexturePacker.Settings settings = new TexturePacker.Settings();
 		settings.atlasExtension = ".atlas"; // Set extension to .atlas
 		settings.wrapX = Texture.TextureWrap.ClampToEdge;
@@ -27,6 +27,9 @@ public class DesktopLauncher {
 		settings.ignoreBlankImages = true; // Ignore images that don't have anything
 		settings.pot = true; // Enforce power of 2 for width and height
 		TexturePacker.process(settings, "./sprites/player_frames", "./sprites", "player");
+
+		// Tell texture packer to create a npc.atlas for all of the frames in /sprites/npc_frames
+        TexturePacker.process(settings, "./sprites/npc_frames", "./sprites", "npc");
 
 		// Setting application settings to the constants defined in NotTextAdventure.java
 		config.title = TITLE; // TITLE

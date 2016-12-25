@@ -1,11 +1,13 @@
 package com.rayanistan.game.states;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.rayanistan.game.NotTextAdventure;
 
+import static com.rayanistan.game.NotTextAdventure.DEBUG;
 import static com.rayanistan.game.NotTextAdventure.SCALE;
 
 // AbstractState implements from LibGDX's Screen to implement useless methods
@@ -40,8 +42,13 @@ public abstract class AbstractState implements Screen {
         update(delta);
 
         // Clear the screen with white
-        Gdx.gl20.glClearColor(1f,1f, 1f, 1f);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        // If semicolon is pressed => Then toggle debug state
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SEMICOLON)) DEBUG = !DEBUG;
+
+        // If escaped is pressed => Then close the application
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) Gdx.app.exit();
     }
 
     // Resize viewport/camera if the window is resized
@@ -50,8 +57,13 @@ public abstract class AbstractState implements Screen {
     }
 
     // Useless methods that are implemented to save space in other classes
-    public void pause() {}
-    public void resume() {}
-    public void hide() {}
+    public void pause() {
+    }
+
+    public void resume() {
+    }
+
+    public void hide() {
+    }
 
 }

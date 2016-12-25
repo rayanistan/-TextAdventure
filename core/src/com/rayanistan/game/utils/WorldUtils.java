@@ -17,6 +17,11 @@ public final class WorldUtils {
         // Velocity Iterations and Position Iterations, don't know too much about
         public final static int VELOCITY_ITERATIONS = 6;
         public final static int POSITION_ITERATIONS = 2;
+
+        // Used for collision bits
+        public final static short PLAYER_BITS = 2;
+        public final static short WIZARD_BITS = 4;
+        public final static short GROUND_BITS = 8;
     }
 
     // Use this to create a box2d body with a fixture in the shape of square
@@ -38,6 +43,36 @@ public final class WorldUtils {
         FixtureDef fixtureDef = new FixtureDef();
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(width / 2 / PPM, height / 2 / PPM);
+        fixtureDef.shape = shape;
+        fixtureDef.density = 1.0f;
+
+        body.createFixture(fixtureDef).setUserData(userData);
+
+        return body;
+    }
+
+    // Use this to create a box2d body with a fixture in the shape of square
+    public static Body createBox(World world, float x, float y, float width,
+                                 float height, boolean isStatic, Object userData,
+                                 short category, short mask) {
+        Body body;
+        BodyDef bodyDef = new BodyDef();
+
+        bodyDef.fixedRotation = true;
+        bodyDef.position.set(x / PPM, y / PPM);
+
+        if (isStatic)
+            bodyDef.type = BodyDef.BodyType.StaticBody;
+        else
+            bodyDef.type = BodyDef.BodyType.DynamicBody;
+
+        body = world.createBody(bodyDef);
+
+        FixtureDef fixtureDef = new FixtureDef();
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(width / 2 / PPM, height / 2 / PPM);
+        fixtureDef.filter.categoryBits = category;
+        fixtureDef.filter.maskBits = mask;
         fixtureDef.shape = shape;
         fixtureDef.density = 1.0f;
 
