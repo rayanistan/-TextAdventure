@@ -1,10 +1,35 @@
 package com.rayanistan.game.utils;
 
+import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.objects.PolygonMapObject;
+import com.badlogic.gdx.maps.objects.PolylineMapObject;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.*;
 
+import static com.rayanistan.game.utils.WorldUtils.Constants.GROUND_BITS;
 import static com.rayanistan.game.utils.WorldUtils.Constants.PPM;
 
 public final class WorldUtils {
+
+    public static void createCollisions(World world, MapLayer layer, short mask) {
+        for (MapObject mo : layer.getObjects()) {
+            if (mo instanceof RectangleMapObject) {
+                Rectangle bounds = ((RectangleMapObject) mo).getRectangle();
+
+                createBox(world, bounds.getX() + bounds.getWidth() / 2, bounds.getY() + bounds.getHeight() / 2 - 1,
+                        bounds.getWidth(), bounds.getHeight(), true, null, GROUND_BITS, mask);
+            }
+            else if (mo instanceof PolylineMapObject) {
+
+            }
+            else if (mo instanceof PolygonMapObject) {
+
+            }
+        }
+    }
 
     // Create a class for the constants used in Box2D
     public final class Constants {

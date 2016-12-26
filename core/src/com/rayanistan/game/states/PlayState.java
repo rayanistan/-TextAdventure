@@ -2,6 +2,9 @@ package com.rayanistan.game.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
@@ -29,6 +32,10 @@ public class PlayState extends AbstractState {
     // Debug renderer handle rendering debug lines if DEBUG
     private Box2DDebugRenderer debugRenderer;
 
+    // Stuff for tiled
+    private TiledMap tileMap;
+    private OrthogonalTiledMapRenderer renderer;
+
     // Public ctor
     public PlayState(final NotTextAdventure app) {
         super(app);
@@ -46,13 +53,15 @@ public class PlayState extends AbstractState {
 
     @Override
     public void show() {
+
+        tileMap = app.assets.get("maps/stage1.tmx");
+        renderer = new OrthogonalTiledMapRenderer(tileMap);
+
         player = new Player(world, (TextureAtlas) app.assets.get("sprites/player.atlas"));
 
         npcs.add(new Wizard(world, (TextureAtlas) app.assets.get("sprites/npc.atlas")));
 
-        WorldUtils.createBox(world, 32, 12, 32 * 40,
-                32, true, null, GROUND_BITS,
-                (short) (WIZARD_BITS | PLAYER_BITS));
+        WorldUtils.createCollisions(world, tileMap.getLayers().get("box2d"), (short) (WIZARD_BITS | PLAYER_BITS));
     }
 
     @Override
@@ -73,6 +82,8 @@ public class PlayState extends AbstractState {
 
         // Display frame rate
         Gdx.graphics.setTitle(TITLE + " FPS: " + Gdx.graphics.getFramesPerSecond());
+
+        renderer.setView(cam);
     }
 
     private void cameraUpdate() {
@@ -98,6 +109,8 @@ public class PlayState extends AbstractState {
         // Set sprite batch's projection matrix4 to the camera.projection [matrix4] * camera.view [matrix4]
         app.batch.setProjectionMatrix(cam.combined);
 
+        renderer.render();
+
         // Begin sprite batch operations
         app.batch.begin();
 
@@ -106,6 +119,7 @@ public class PlayState extends AbstractState {
         // 1. PLAYER
         // 2. ALL NPCS
         // 3. ALL ENEMIES
+
 
         // Render player
         player.render(app.batch);
@@ -117,6 +131,7 @@ public class PlayState extends AbstractState {
 
         // Flush sprite batch to GPU
         app.batch.end();
+
 
         // If DEBUG => render box2d debug lines up-scaled by Pixel Per Meter ratio
         if (DEBUG)
