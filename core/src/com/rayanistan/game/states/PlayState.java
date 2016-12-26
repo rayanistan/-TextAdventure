@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.rayanistan.game.NotTextAdventure;
 import com.rayanistan.game.entities.NPC;
 import com.rayanistan.game.entities.Player;
@@ -37,6 +38,9 @@ public class PlayState extends AbstractState {
 
         cam.setToOrtho(false, V_WIDTH, V_HEIGHT);
 
+        // Make extend viewport to maintain aspect ration
+        viewport = new ExtendViewport(V_WIDTH, V_HEIGHT, cam);
+
         npcs = new Array<NPC>();
     }
 
@@ -46,7 +50,7 @@ public class PlayState extends AbstractState {
 
         npcs.add(new Wizard(world, (TextureAtlas) app.assets.get("sprites/npc.atlas")));
 
-        WorldUtils.createBox(world, 32, 12, 32 * 20,
+        WorldUtils.createBox(world, 32, 12, 32 * 40,
                 32, true, null, GROUND_BITS,
                 (short) (WIZARD_BITS | PLAYER_BITS));
     }
@@ -73,6 +77,15 @@ public class PlayState extends AbstractState {
 
     private void cameraUpdate() {
         CameraUtils.lerpToTarget(cam, player.getCenter());
+
+        Wizard wizard = (Wizard) npcs.get(0);
+
+        // If the wizard is within 8 meters of the player
+        // then interpolate the position of the camera
+        // between the average of the two objects
+        if (wizard.getCenter().dst(player.getCenter()) < 8 * PPM) {
+            CameraUtils.lerpAverage(cam, player.getCenter(), wizard.getCenter());
+        }
     }
 
     @Override
@@ -82,11 +95,17 @@ public class PlayState extends AbstractState {
         // Set clear color to white
         Gdx.gl.glClearColor(1f, 1f, 1f, 1f);
 
-        // Set sprite batch's projection matrix4 to the camera.projection * camera.view
+        // Set sprite batch's projection matrix4 to the camera.projection [matrix4] * camera.view [matrix4]
         app.batch.setProjectionMatrix(cam.combined);
 
         // Begin sprite batch operations
         app.batch.begin();
+
+        // RENDER ORDER:
+        // 0. TILEMAP
+        // 1. PLAYER
+        // 2. ALL NPCS
+        // 3. ALL ENEMIES
 
         // Render player
         player.render(app.batch);
