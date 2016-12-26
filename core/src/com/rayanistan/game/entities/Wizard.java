@@ -13,7 +13,7 @@ public final class Wizard extends NPC {
     public Wizard(World world, TextureAtlas atlas) {
         super(atlas.findRegions("w"), 0.75f);
 
-        body = WorldUtils.createBox(world, 32 * 2, 32,32, 32, false, sprite,
+        body = WorldUtils.createBox(world, 32 * 2, 32,16 * 1.75f, 16 * 1.75f, false, sprite,
                 WIZARD_BITS, GROUND_BITS);
     }
 
@@ -23,14 +23,14 @@ public final class Wizard extends NPC {
         handleAnimation(dt);
 
         // Update position of sprite based off of box2d body
-        sprite.setPosition(body.getPosition().x * PPM - 11,
-                body.getPosition().y * PPM - 15);
+        sprite.setPosition(body.getPosition().x * PPM - (11 * 1.75f) / 2,
+                body.getPosition().y * PPM - (15 * 1.75f) / 2);
 
         // Update origin of sprite based off of box2d body
         sprite.setOrigin(body.getPosition().x, body.getPosition().y);
 
         // Update scale of sprite (probably futile)
-        sprite.setScale(2, 2 );
+        sprite.setScale(1.75f, 1.75f );
     }
 
     private void handleAnimation(float dt) {
