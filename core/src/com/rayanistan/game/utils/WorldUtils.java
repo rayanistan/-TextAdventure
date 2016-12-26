@@ -6,7 +6,9 @@ import com.badlogic.gdx.maps.objects.PolygonMapObject;
 import com.badlogic.gdx.maps.objects.PolylineMapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.math.Polyline;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
 import static com.rayanistan.game.utils.WorldUtils.Constants.GROUND_BITS;
@@ -21,11 +23,12 @@ public final class WorldUtils {
 
                 createBox(world, bounds.getX() + bounds.getWidth() / 2, bounds.getY() + bounds.getHeight() / 2 - 1,
                         bounds.getWidth(), bounds.getHeight(), true, null, GROUND_BITS, mask);
-            }
-            else if (mo instanceof PolylineMapObject) {
+            } else if (mo instanceof PolylineMapObject) {
+                Polyline bounds = ((PolylineMapObject) mo).getPolyline();
+                float[] vertices = bounds.getTransformedVertices();
 
-            }
-            else if (mo instanceof PolygonMapObject) {
+                createPolyline(world, vertices, true, mask, GROUND_BITS);
+            } else if (mo instanceof PolygonMapObject) {
 
             }
         }
@@ -79,4 +82,34 @@ public final class WorldUtils {
         return body;
     }
 
+    public static Body createPolyline(World world, float vertices[], boolean isStatic, short mask, short category) {
+        Body body;
+
+        BodyDef bodyDef = new BodyDef();
+
+        if (isStatic)
+            bodyDef.type = BodyDef.BodyType.StaticBody;
+        else
+            bodyDef.type = BodyDef.BodyType.DynamicBody;
+
+        body = world.createBody(bodyDef);
+
+        Vector2[] actualVertices = new Vector2[vertices.length / 2];
+
+        for (int i = 0; i < actualVertices.length; i++) {
+            actualVertices[i] = new Vector2(vertices[i * 2] / PPM, vertices[i * 2 + 1] / PPM);
+        }
+
+        ChainShape cs = new ChainShape();
+        cs.createChain(actualVertices);
+
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = cs;
+        fixtureDef.density = 1.0f;
+        fixtureDef.filter.categoryBits = category;
+        fixtureDef.filter.maskBits = mask;
+
+        body.createFixture(fixtureDef);
+        return body;
+    }
 }

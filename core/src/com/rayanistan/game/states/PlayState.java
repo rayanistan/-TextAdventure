@@ -14,6 +14,7 @@ import com.rayanistan.game.NotTextAdventure;
 import com.rayanistan.game.entities.NPC;
 import com.rayanistan.game.entities.Player;
 import com.rayanistan.game.entities.Wizard;
+import com.rayanistan.game.utils.BoundedCamera;
 import com.rayanistan.game.utils.CameraUtils;
 import com.rayanistan.game.utils.WorldUtils;
 
@@ -29,6 +30,8 @@ public class PlayState extends AbstractState {
     // Box2D world handles physics simulation
     private World world;
 
+    private BoundedCamera cam;
+
     // Debug renderer handle rendering debug lines if DEBUG
     private Box2DDebugRenderer debugRenderer;
 
@@ -43,7 +46,8 @@ public class PlayState extends AbstractState {
         world = new World(new Vector2(0, -9.8f), true);
         debugRenderer = new Box2DDebugRenderer();
 
-        cam.setToOrtho(false, V_WIDTH, V_HEIGHT);
+        this.cam = new BoundedCamera();
+        this.cam.setToOrtho(false, V_WIDTH, V_HEIGHT);
 
         // Make extend viewport to maintain aspect ration
         viewport = new ExtendViewport(V_WIDTH, V_HEIGHT, cam);
@@ -56,6 +60,11 @@ public class PlayState extends AbstractState {
 
         tileMap = app.assets.get("maps/stage1.tmx");
         renderer = new OrthogonalTiledMapRenderer(tileMap);
+
+        int levelWidth = tileMap.getProperties().get("width", Integer.class);
+        int levelHeight = tileMap.getProperties().get("height", Integer.class);
+
+        this.cam.setBounds(0, levelWidth * 64, 0, levelHeight * 64);
 
         player = new Player(world, (TextureAtlas) app.assets.get("sprites/player.atlas"));
 
