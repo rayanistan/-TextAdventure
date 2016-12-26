@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.rayanistan.game.NotTextAdventure;
 
 import static com.rayanistan.game.NotTextAdventure.V_HEIGHT;
@@ -20,6 +21,7 @@ public class LoadingState extends AbstractState {
         super(app);
 
         cam.setToOrtho(false, V_WIDTH, V_HEIGHT);
+        viewport = new FitViewport(V_WIDTH, V_HEIGHT, cam);
     }
 
     @Override

@@ -16,4 +16,12 @@ public final class CameraUtils {
         cam.position.set(position);
         cam.update();
     }
+
+    // Use linear interpolation too shift camera between two positions
+    public static void lerpAverage(Camera cam, Vector2 target1, Vector2 target2) {
+        Vector2 targetAvg = new Vector2();
+        targetAvg.x = (target1.x + target2.x) / 2;
+        targetAvg.y = (target1.y + target2.y) / 2;
+        lerpToTarget(cam, targetAvg);
+    }
 }

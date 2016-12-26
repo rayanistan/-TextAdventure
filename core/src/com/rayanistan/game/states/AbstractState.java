@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.rayanistan.game.NotTextAdventure;
 
 import static com.rayanistan.game.NotTextAdventure.DEBUG;
@@ -16,8 +17,11 @@ public abstract class AbstractState implements Screen {
     // TODO: Make camera a public property in NotTextAdventure.java
     // TODO: Have each state have a Scene2D Stage instead
 
-    // OrthographicCamera is used to define the viewport in which the player can see
+    // OrthographicCamera is used to define the point of view of player
     protected OrthographicCamera cam;
+
+    // Viewport helps to keep aspect ratio of OrthographicCamera
+    protected Viewport viewport;
 
     // Context Reference to text adventure
     protected NotTextAdventure app;
@@ -53,7 +57,7 @@ public abstract class AbstractState implements Screen {
 
     // Resize viewport/camera if the window is resized
     public void resize(int width, int height) {
-        cam.setToOrtho(false, width / SCALE, height / SCALE);
+        viewport.update(width, height);
     }
 
     // Useless methods that are implemented to save space in other classes

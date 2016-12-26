@@ -31,7 +31,7 @@ public abstract class NPC {
         this.currentAnimation = new Animation(timer, frames);
     }
 
-    protected Vector2 getCenter() {
+    public Vector2 getCenter() {
         return new Vector2(body.getPosition().x * PPM, body.getPosition().y * PPM);
     }
 
