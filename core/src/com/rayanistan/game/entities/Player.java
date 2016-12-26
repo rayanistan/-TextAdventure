@@ -60,7 +60,7 @@ public final class Player {
     private boolean flipped = false;
 
     // Public cthulu
-    public Player(World world, TextureAtlas atlas) {
+    public Player(World world, TextureAtlas atlas, float x, float y) {
 
         this.atlas = atlas;
 
@@ -69,7 +69,7 @@ public final class Player {
 
         sprite = new Sprite();
 
-        this.body = WorldUtils.createBox(world, 32, 32, 32,32,
+        this.body = WorldUtils.createBox(world, x + 16, y + 16, 32,32,
                 false, sprite, PLAYER_BITS, GROUND_BITS);
     }
 
@@ -84,7 +84,7 @@ public final class Player {
 
         // Set sprite position to the bottom left corner of the box2d box
         sprite.setPosition(body.getPosition().x * PPM - sprite.getWidth() / 2,
-                body.getPosition().y * PPM - 16);
+                body.getPosition().y * PPM - 17);
 
         // Set sprite origin to the center of the box2d box
         sprite.setOrigin(body.getPosition().x, body.getPosition().y);

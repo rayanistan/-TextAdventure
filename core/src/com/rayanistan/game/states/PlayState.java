@@ -2,6 +2,9 @@ package com.rayanistan.game.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.MapObjects;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -17,6 +20,7 @@ import com.rayanistan.game.entities.Wizard;
 import com.rayanistan.game.utils.BoundedCamera;
 import com.rayanistan.game.utils.CameraUtils;
 import com.rayanistan.game.utils.WorldUtils;
+import org.w3c.dom.css.Rect;
 
 import static com.rayanistan.game.NotTextAdventure.*;
 import static com.rayanistan.game.utils.WorldUtils.Constants.*;
@@ -68,12 +72,15 @@ public class PlayState extends AbstractState {
 
         this.cam.setBounds(0, levelWidth * tileSize, 0, levelHeight * tileSize);
 
-        player = new Player(world, (TextureAtlas) app.assets.get("sprites/player.atlas"));
+        player = WorldUtils.createPlayer(world, app.assets.get("sprites/player.atlas",
+                TextureAtlas.class), tileMap.getLayers().get("entities"));
 
-        WorldUtils.createEntities(world, (TextureAtlas) app.assets.get("sprites/npc.atlas"),
+        WorldUtils.createEntities(world, app.assets.get("sprites/npc.atlas", TextureAtlas.class),
                 tileMap.getLayers().get("entities"), npcs, GROUND_BITS);
 
         WorldUtils.createCollisions(world, tileMap.getLayers().get("box2d"), (short) (WIZARD_BITS | PLAYER_BITS));
+
+
     }
 
     @Override
@@ -103,10 +110,10 @@ public class PlayState extends AbstractState {
 
         Wizard wizard = (Wizard) npcs.get(0);
 
-        // If the wizard is within 8 meters of the player
+        // If the wizard is within 1 meter of the player
         // then interpolate the position of the camera
         // between the average of the two objects
-        if (wizard.getCenter().dst(player.getCenter()) < 3 * PPM) {
+        if (wizard.getCenter().dst(player.getCenter()) < 1 * PPM) {
             CameraUtils.lerpAverage(cam, player.getCenter(), wizard.getCenter());
         }
     }
@@ -132,11 +139,10 @@ public class PlayState extends AbstractState {
         // 2. ALL NPCS
         // 3. ALL ENEMIES
 
-
         // Render player
         player.render(app.batch);
 
-        // Update all of the NPC's sprites
+        // Render all of the NPC's sprites
         for (NPC npc : npcs) {
             npc.render(app.batch);
         }

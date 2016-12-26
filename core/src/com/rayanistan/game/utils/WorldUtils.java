@@ -14,6 +14,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import com.rayanistan.game.entities.NPC;
+import com.rayanistan.game.entities.Player;
 import com.rayanistan.game.entities.Wizard;
 
 import static com.rayanistan.game.utils.WorldUtils.Constants.GROUND_BITS;
@@ -40,6 +41,19 @@ public final class WorldUtils {
                 createPolyline(world, vertices, true, mask, GROUND_BITS);
             }
         }
+    }
+
+    public static Player createPlayer(World world, TextureAtlas atlas, MapLayer layer) {
+    // Enumerate until find player spawn
+        Player player = null;
+        for (MapObject mo : layer.getObjects()) {
+            if (mo.getName().equals("PlayerSpawn")) {
+                float x = ((RectangleMapObject) mo).getRectangle().getX();
+                float y = ((RectangleMapObject) mo).getRectangle().getY();
+                player = new Player(world, atlas, x, y);
+            }
+        }
+        return player;
     }
 
     public static void createEntities(World world, TextureAtlas atlas, MapLayer layer, Array<NPC> npcs, short mask) {

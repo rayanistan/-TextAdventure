@@ -68,7 +68,7 @@ public class LoadingState extends AbstractState {
         app.shapeRenderer.setColor(Color.BLACK);
         app.shapeRenderer.rect(32, cam.viewportHeight / 2 - 8, cam.viewportWidth - 64, 16);
 
-        app.shapeRenderer.setColor(Color.BLUE);
+        app.shapeRenderer.setColor(new Color(0.5f, 0.5f, 0.5f, 1f));
         app.shapeRenderer.rect(32, cam.viewportHeight / 2 - 8, progress * (cam.viewportWidth - 64), 16);
         app.shapeRenderer.end();
     }

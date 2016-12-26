@@ -18,7 +18,7 @@ public class NotTextAdventure extends Game {
     public static final float V_HEIGHT = HEIGHT / SCALE;
 
     // A variable that states if debug mode is draw, render the Box2D Debug lines
-    public static boolean DEBUG = true;
+    public static boolean DEBUG = false;
 
     // Declare batches for drawing
     // Sprite/Shape Batches are used for displaying geometric figures/ textures on screen
