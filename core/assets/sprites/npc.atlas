@@ -13,11 +13,32 @@ g
   index: 0
 g
   rotate: false
+  xy: 64, 4
+  size: 11, 14
+  orig: 18, 21
+  offset: 4, 5
+  index: 1
+g
+  rotate: false
+  xy: 64, 4
+  size: 11, 14
+  orig: 18, 21
+  offset: 4, 5
+  index: 2
+g
+  rotate: false
+  xy: 64, 4
+  size: 11, 14
+  orig: 18, 21
+  offset: 4, 5
+  index: 3
+g
+  rotate: false
   xy: 77, 4
   size: 11, 14
   orig: 16, 21
   offset: 2, 5
-  index: 1
+  index: 4
 s
   rotate: false
   xy: 2, 4
@@ -27,11 +48,25 @@ s
   index: 0
 s
   rotate: false
+  xy: 2, 4
+  size: 15, 14
+  orig: 19, 20
+  offset: 4, 4
+  index: 2
+s
+  rotate: false
+  xy: 2, 4
+  size: 15, 14
+  orig: 19, 20
+  offset: 4, 4
+  index: 1
+s
+  rotate: false
   xy: 19, 4
   size: 15, 14
   orig: 22, 21
   offset: 6, 5
-  index: 1
+  index: 4
 w
   rotate: false
   xy: 36, 2
@@ -41,8 +76,29 @@ w
   index: 0
 w
   rotate: false
+  xy: 36, 2
+  size: 12, 16
+  orig: 16, 21
+  offset: 1, 5
+  index: 3
+w
+  rotate: false
+  xy: 36, 2
+  size: 12, 16
+  orig: 16, 21
+  offset: 1, 5
+  index: 2
+w
+  rotate: false
+  xy: 36, 2
+  size: 12, 16
+  orig: 16, 21
+  offset: 1, 5
+  index: 1
+w
+  rotate: false
   xy: 50, 2
   size: 12, 16
   orig: 20, 21
   offset: 4, 5
-  index: 1
+  index: 4
