@@ -58,7 +58,7 @@ public final class Player {
     // Boolean to keep track if the sprite should be flipped
     private boolean flipped = false;
 
-    // Public ctor
+    // Public cthulu
     public Player(World world, TextureAtlas atlas) {
 
         this.atlas = atlas;
