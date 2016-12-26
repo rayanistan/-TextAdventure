@@ -8,12 +8,13 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.rayanistan.game.utils.WorldUtils;
 
+import static com.rayanistan.game.utils.WorldUtils.Constants.GROUND_BITS;
+import static com.rayanistan.game.utils.WorldUtils.Constants.PLAYER_BITS;
 import static com.rayanistan.game.utils.WorldUtils.Constants.PPM;
 
-// TODO: Make inherit from Scene2D actor
 public final class Player {
 
-    // Player entity needs to display a sprite for a visual representation, god, players are so needy
+    // Player entity needs to display a sprite for a visual representation, because players are so needy
     private Sprite sprite;
 
     // Create a Box2D body for a physical representation for the player
@@ -68,8 +69,8 @@ public final class Player {
 
         sprite = new Sprite();
 
-        this.body = WorldUtils.createBox(world, 32, 32, 32,
-                32, false, sprite);
+        this.body = WorldUtils.createBox(world, 32, 32, 32,32,
+                false, sprite, PLAYER_BITS, GROUND_BITS);
     }
 
     // Update animation, input, and sprite position relative to the box2d physics body
@@ -99,7 +100,7 @@ public final class Player {
         // Set sprite's frame to the current animation's frame
         sprite.setRegion(current.getFrame(atlas, animationTimer));
 
-        // Set sprite size to the width and height o fthe frame
+        // Set sprite size to the width and height of the frame
         sprite.setBounds(0, 0, sprite.getRegionWidth(), sprite.getRegionHeight());
 
         // Add delta time to the animation timer
@@ -128,7 +129,7 @@ public final class Player {
 
         // JUMPING
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-            body.applyForceToCenter(0, 300, true);
+            body.applyForceToCenter(0, 250, true);
         }
 
 

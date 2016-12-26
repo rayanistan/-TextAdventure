@@ -1,7 +1,5 @@
 package com.rayanistan.game;
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -12,7 +10,7 @@ public class NotTextAdventure extends Game {
 
     // Application constants to be used in the desktop launcher
     // Declares windows width + height as well as title
-    public static final int WIDTH = 720;
+    public static final int WIDTH = 800;
     public static final int HEIGHT = 480;
     public static final String TITLE = "~TextAdventure";
     public static final float SCALE = 2.0f;
@@ -27,8 +25,7 @@ public class NotTextAdventure extends Game {
     public SpriteBatch batch;
     public ShapeRenderer shapeRenderer;
 
-    // Declare managers
-    // GameStateManager handles the state of the application
+    // Declare screens that will later be loaded
     public LoadingState loadingState;
     public PlayState playState;
 
@@ -38,31 +35,19 @@ public class NotTextAdventure extends Game {
 
     @Override
     public void create() {
-        // Instansiate batches
+        // Instantiate batches
         batch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
 
-        // Instansiate Asset Manager
+        // Instantiate Asset Manager
         assets = new AssetManager();
 
-        // Instansiate states
+        // Instantiate states
         loadingState = new LoadingState(this);
         playState = new PlayState(this);
 
         // Change state to loading
         this.setScreen(loadingState);
-    }
-
-    @Override
-    public void render() {
-        // Call super method of render
-        super.render();
-
-        // If semicolon is pressed => Then toggle debug state
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SEMICOLON)) DEBUG = !DEBUG;
-
-        // If escaped is pressed => Then close the application
-        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) Gdx.app.exit();
     }
 
     @Override

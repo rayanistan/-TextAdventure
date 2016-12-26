@@ -20,7 +20,6 @@ public class LoadingState extends AbstractState {
         super(app);
 
         cam.setToOrtho(false, V_WIDTH, V_HEIGHT);
-
     }
 
     @Override
@@ -35,6 +34,7 @@ public class LoadingState extends AbstractState {
 
     private void queueAssets() {
         app.assets.load("sprites/player.atlas", TextureAtlas.class);
+        app.assets.load("sprites/npc.atlas", TextureAtlas.class);
     }
 
     @Override
@@ -52,6 +52,9 @@ public class LoadingState extends AbstractState {
     public void render(float dt) {
 
         super.render(dt);
+
+        // Set clear color to white
+        Gdx.gl.glClearColor(1f, 1f, 1f, 1f);
 
         // Draw loading bar
         app.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
