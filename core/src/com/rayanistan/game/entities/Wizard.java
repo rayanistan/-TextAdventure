@@ -1,20 +1,21 @@
 package com.rayanistan.game.entities;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.World;
 import com.rayanistan.game.utils.WorldUtils;
 
-import static com.rayanistan.game.utils.WorldUtils.Constants.GROUND_BITS;
 import static com.rayanistan.game.utils.WorldUtils.Constants.PPM;
 import static com.rayanistan.game.utils.WorldUtils.Constants.WIZARD_BITS;
 
 public final class Wizard extends NPC {
 
-    public Wizard(World world, TextureAtlas atlas) {
+    public Wizard(World world, TextureAtlas atlas, Rectangle rect, short mask) {
         super(atlas.findRegions("w"), 0.75f);
 
-        body = WorldUtils.createBox(world, 32 * 2, 32,16 * 1.75f, 16 * 1.75f, false, sprite,
-                WIZARD_BITS, GROUND_BITS);
+        body = WorldUtils.createBox(world, rect.getX() + rect.getWidth() / 2
+                , rect.getY() + rect.getHeight() / 2, rect.getWidth(), rect.getHeight(),
+                false, sprite, WIZARD_BITS, mask);
     }
 
     @Override
@@ -23,8 +24,8 @@ public final class Wizard extends NPC {
         handleAnimation(dt);
 
         // Update position of sprite based off of box2d body
-        sprite.setPosition(body.getPosition().x * PPM - (11 * 1.75f) / 2,
-                body.getPosition().y * PPM - (15 * 1.75f) / 2);
+        sprite.setPosition(body.getPosition().x * PPM - 13 / 4,
+                body.getPosition().y * PPM - 13);
 
         // Update origin of sprite based off of box2d body
         sprite.setOrigin(body.getPosition().x, body.getPosition().y);

@@ -30,6 +30,7 @@ public class PlayState extends AbstractState {
     // Box2D world handles physics simulation
     private World world;
 
+    // Re-purpose camera into bounded camera to avoid scrolling offscreen
     private BoundedCamera cam;
 
     // Debug renderer handle rendering debug lines if DEBUG
@@ -63,12 +64,14 @@ public class PlayState extends AbstractState {
 
         int levelWidth = tileMap.getProperties().get("width", Integer.class);
         int levelHeight = tileMap.getProperties().get("height", Integer.class);
+        int tileSize = 64;
 
-        this.cam.setBounds(0, levelWidth * 64, 0, levelHeight * 64);
+        this.cam.setBounds(0, levelWidth * tileSize, 0, levelHeight * tileSize);
 
         player = new Player(world, (TextureAtlas) app.assets.get("sprites/player.atlas"));
 
-        npcs.add(new Wizard(world, (TextureAtlas) app.assets.get("sprites/npc.atlas")));
+        WorldUtils.createEntities(world, (TextureAtlas) app.assets.get("sprites/npc.atlas"),
+                tileMap.getLayers().get("entities"), npcs, GROUND_BITS);
 
         WorldUtils.createCollisions(world, tileMap.getLayers().get("box2d"), (short) (WIZARD_BITS | PLAYER_BITS));
     }
@@ -103,7 +106,7 @@ public class PlayState extends AbstractState {
         // If the wizard is within 8 meters of the player
         // then interpolate the position of the camera
         // between the average of the two objects
-        if (wizard.getCenter().dst(player.getCenter()) < 8 * PPM) {
+        if (wizard.getCenter().dst(player.getCenter()) < 3 * PPM) {
             CameraUtils.lerpAverage(cam, player.getCenter(), wizard.getCenter());
         }
     }

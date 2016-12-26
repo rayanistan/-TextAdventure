@@ -1,15 +1,20 @@
 package com.rayanistan.game.utils;
 
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.PolygonMapObject;
 import com.badlogic.gdx.maps.objects.PolylineMapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Polyline;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.utils.Array;
+import com.rayanistan.game.entities.NPC;
+import com.rayanistan.game.entities.Wizard;
 
 import static com.rayanistan.game.utils.WorldUtils.Constants.GROUND_BITS;
 import static com.rayanistan.game.utils.WorldUtils.Constants.PPM;
@@ -29,7 +34,22 @@ public final class WorldUtils {
 
                 createPolyline(world, vertices, true, mask, GROUND_BITS);
             } else if (mo instanceof PolygonMapObject) {
+                Polygon bounds = ((PolygonMapObject) mo).getPolygon();
+                float[] vertices = bounds.getTransformedVertices();
 
+                createPolyline(world, vertices, true, mask, GROUND_BITS);
+            }
+        }
+    }
+
+    public static void createEntities(World world, TextureAtlas atlas, MapLayer layer, Array<NPC> npcs, short mask) {
+        for (MapObject mo : layer.getObjects()) {
+            if (mo instanceof  RectangleMapObject) {
+                if (mo.getName().equals("Wizard")) {
+                    Rectangle bounds = ((RectangleMapObject) mo).getRectangle();
+
+                    npcs.add(new Wizard(world, atlas, bounds, mask));
+                }
             }
         }
     }
