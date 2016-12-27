@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.rayanistan.game.NotTextAdventure;
 
 import static com.rayanistan.game.NotTextAdventure.DEBUG;
+import static com.rayanistan.game.NotTextAdventure.RENDER;
 import static com.rayanistan.game.NotTextAdventure.SCALE;
 
 // AbstractState implements from LibGDX's Screen to implement useless methods
@@ -16,9 +17,6 @@ public abstract class AbstractState implements Screen {
 
     // TODO: Make camera a public property in NotTextAdventure.java
     // TODO: Have each state have a Scene2D Stage instead
-
-    // OrthographicCamera is used to define the point of view of player
-    protected OrthographicCamera cam;
 
     // Viewport helps to keep aspect ratio of OrthographicCamera
     protected Viewport viewport;
@@ -29,7 +27,6 @@ public abstract class AbstractState implements Screen {
     // Protected constructor
     protected AbstractState(final NotTextAdventure app) {
         this.app = app;
-        cam = new OrthographicCamera();
     }
 
     // Update logic should be called before rendering anything to the screen
@@ -53,6 +50,8 @@ public abstract class AbstractState implements Screen {
 
         // If escaped is pressed => Then close the application
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) Gdx.app.exit();
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.PERIOD)) RENDER = !RENDER;
     }
 
     // Resize viewport/camera if the window is resized

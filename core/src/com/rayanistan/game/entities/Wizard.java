@@ -2,6 +2,7 @@ package com.rayanistan.game.entities;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.rayanistan.game.utils.WorldUtils;
 
@@ -23,15 +24,12 @@ public final class Wizard extends NPC {
         // Update animation using animationTimer
         handleAnimation(dt);
 
-        // Update position of sprite based off of box2d body
-        sprite.setPosition(body.getPosition().x * PPM - 13 / 4,
-                body.getPosition().y * PPM - 13);
 
-        // Update origin of sprite based off of box2d body
-        sprite.setOrigin(body.getPosition().x, body.getPosition().y);
+        // Update size of box2d body
+        PolygonShape shape = (PolygonShape) body.getFixtureList().first().getShape();
+        shape.setAsBox(sprite.getWidth() / 2 / PPM * sprite.getScaleX(),
+                sprite.getHeight() / 2 / PPM * sprite.getScaleX());
 
-        // Update scale of sprite (probably futile)
-        sprite.setScale(1.75f, 1.75f );
     }
 
     private void handleAnimation(float dt) {
@@ -39,8 +37,18 @@ public final class Wizard extends NPC {
         // Get currentFrame based off of animationTimer
         sprite.setRegion(currentAnimation.getKeyFrame(animationTimer, true));
 
+        // Update scale of sprite (probably futile)
+        sprite.setScale(1.75f, 1.75f);
+
+        // Update position of sprite based off of box2d body
+        sprite.setPosition(body.getPosition().x * PPM,
+                body.getPosition().y * PPM - sprite.getHeight() / 2 * sprite.getScaleY());
+
+        // Update origin of sprite based off of box2d body
+        sprite.setOrigin(body.getPosition().x, body.getPosition().y);
+
         // Change sprite's size based off of current frame
-        sprite.setBounds(0, 0, sprite.getRegionWidth(), sprite.getRegionHeight());
+        sprite.setSize(sprite.getRegionWidth(), sprite.getRegionHeight());
 
         animationTimer += dt;
     }
