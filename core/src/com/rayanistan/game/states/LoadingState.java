@@ -3,6 +3,7 @@ package com.rayanistan.game.states;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -16,6 +17,9 @@ import static com.rayanistan.game.NotTextAdventure.V_WIDTH;
 
 public class LoadingState extends AbstractState {
 
+    // OrthographicCamera is used to define the point of view of player
+    private OrthographicCamera cam;
+
     // Float that keeps the progress of the amount of assets loaded
     private float progress;
 
@@ -23,6 +27,7 @@ public class LoadingState extends AbstractState {
     public LoadingState(final NotTextAdventure app) {
         super(app);
 
+        cam = new OrthographicCamera();
         cam.setToOrtho(false, V_WIDTH, V_HEIGHT);
         viewport = new FitViewport(V_WIDTH, V_HEIGHT, cam);
     }

@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.rayanistan.game.utils.WorldUtils;
 
@@ -59,17 +60,16 @@ public final class Player {
     // Boolean to keep track if the sprite should be flipped
     private boolean flipped = false;
 
-    // Public cthulu
     public Player(World world, TextureAtlas atlas, float x, float y) {
 
         this.atlas = atlas;
 
         current = State.NOTHING;
-        previous = current;
+        previous = State.NOTHING_IDLE;
 
         sprite = new Sprite();
 
-        this.body = WorldUtils.createBox(world, x + 16, y + 16, 32,32,
+        this.body = WorldUtils.createBox(world, x, y, 32,32,
                 false, sprite, PLAYER_BITS, GROUND_BITS);
     }
 
@@ -77,14 +77,14 @@ public final class Player {
     public void update(float dt) {
 
         // Handle key inputs to change state and shift box2d body
-        handleInput(dt);
+        controller(dt);
 
         // Update current frame dependent on state
         handleAnimation(dt);
 
         // Set sprite position to the bottom left corner of the box2d box
         sprite.setPosition(body.getPosition().x * PPM - sprite.getWidth() / 2,
-                body.getPosition().y * PPM - 17);
+                body.getPosition().y * PPM - sprite.getHeight() / 2 - 1);
 
         // Set sprite origin to the center of the box2d box
         sprite.setOrigin(body.getPosition().x, body.getPosition().y);
@@ -101,17 +101,22 @@ public final class Player {
         sprite.setRegion(current.getFrame(atlas, animationTimer));
 
         // Set sprite size to the width and height of the frame
-        sprite.setBounds(0, 0, sprite.getRegionWidth(), sprite.getRegionHeight());
+        sprite.setSize(sprite.getRegionWidth(), sprite.getRegionHeight());
+
+        if (previous != current) {
+            // Change body for sprite size if the state has changed
+            PolygonShape shape = (PolygonShape) body.getFixtureList().first().getShape();
+            shape.setAsBox(sprite.getWidth() / 2 / PPM, sprite.getHeight() / 2 / PPM);
+        }
 
         // Add delta time to the animation timer
         animationTimer += dt;
 
         // If flipped => then flip sprite
         sprite.setFlip(flipped, false);
-
     }
 
-    private void handleInput(float dt) {
+    private void controller(float dt) {
         // Make previous state equal to current state before changing state
         previous = current;
 

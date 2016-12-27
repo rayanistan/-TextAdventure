@@ -46,7 +46,7 @@ public final class WorldUtils {
     public static Player createPlayer(World world, TextureAtlas atlas, MapLayer layer) {
     // Enumerate until find player spawn
         Player player = null;
-        for (MapObject mo : layer.getObjects()) {
+        for (MapObject mo : layer.getObjects().getByType(RectangleMapObject.class)) {
             if (mo.getName().equals("PlayerSpawn")) {
                 float x = ((RectangleMapObject) mo).getRectangle().getX();
                 float y = ((RectangleMapObject) mo).getRectangle().getY();

@@ -2,11 +2,7 @@ package com.rayanistan.game.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.MapObjects;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -16,11 +12,8 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.rayanistan.game.NotTextAdventure;
 import com.rayanistan.game.entities.NPC;
 import com.rayanistan.game.entities.Player;
-import com.rayanistan.game.entities.Wizard;
-import com.rayanistan.game.utils.BoundedCamera;
-import com.rayanistan.game.utils.CameraUtils;
+import com.rayanistan.game.utils.GameCamera;
 import com.rayanistan.game.utils.WorldUtils;
-import org.w3c.dom.css.Rect;
 
 import static com.rayanistan.game.NotTextAdventure.*;
 import static com.rayanistan.game.utils.WorldUtils.Constants.*;
@@ -35,7 +28,7 @@ public class PlayState extends AbstractState {
     private World world;
 
     // Re-purpose camera into bounded camera to avoid scrolling offscreen
-    private BoundedCamera cam;
+    private GameCamera cam;
 
     // Debug renderer handle rendering debug lines if DEBUG
     private Box2DDebugRenderer debugRenderer;
@@ -51,11 +44,12 @@ public class PlayState extends AbstractState {
         world = new World(new Vector2(0, -9.8f), true);
         debugRenderer = new Box2DDebugRenderer();
 
-        this.cam = new BoundedCamera();
-        this.cam.setToOrtho(false, V_WIDTH, V_HEIGHT);
+        // Initialize utility camera
+        cam = new GameCamera();
 
-        // Make extend viewport to maintain aspect ration
+        // Make extend viewport to maintain aspect ratio
         viewport = new ExtendViewport(V_WIDTH, V_HEIGHT, cam);
+        viewport.apply();
 
         npcs = new Array<NPC>();
     }
@@ -68,9 +62,10 @@ public class PlayState extends AbstractState {
 
         int levelWidth = tileMap.getProperties().get("width", Integer.class);
         int levelHeight = tileMap.getProperties().get("height", Integer.class);
-        int tileSize = 64;
+        int tileWidth = tileMap.getProperties().get("tilewidth", Integer.class);
+        int tileHeight = tileMap.getProperties().get("tileheight", Integer.class);
 
-        this.cam.setBounds(0, levelWidth * tileSize, 0, levelHeight * tileSize);
+        this.cam.setBounds(0, levelWidth * tileWidth, 0, levelHeight * tileHeight);
 
         player = WorldUtils.createPlayer(world, app.assets.get("sprites/player.atlas",
                 TextureAtlas.class), tileMap.getLayers().get("entities"));
@@ -86,7 +81,7 @@ public class PlayState extends AbstractState {
     @Override
     public void update(float dt) {
         // Update camera
-        cameraUpdate();
+        cam.lerpToTarget(player.getCenter().x, player.getCenter().y);
 
         // Update physics simulation
         world.step(STEP, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
@@ -102,20 +97,6 @@ public class PlayState extends AbstractState {
         // Display frame rate
         Gdx.graphics.setTitle(TITLE + " FPS: " + Gdx.graphics.getFramesPerSecond());
 
-        renderer.setView(cam);
-    }
-
-    private void cameraUpdate() {
-        CameraUtils.lerpToTarget(cam, player.getCenter());
-
-        Wizard wizard = (Wizard) npcs.get(0);
-
-        // If the wizard is within 1 meter of the player
-        // then interpolate the position of the camera
-        // between the average of the two objects
-        if (wizard.getCenter().dst(player.getCenter()) < 1 * PPM) {
-            CameraUtils.lerpAverage(cam, player.getCenter(), wizard.getCenter());
-        }
     }
 
     @Override
@@ -125,30 +106,34 @@ public class PlayState extends AbstractState {
         // Set clear color to white
         Gdx.gl.glClearColor(1f, 1f, 1f, 1f);
 
-        // Set sprite batch's projection matrix4 to the camera.projection [matrix4] * camera.view [matrix4]
-        app.batch.setProjectionMatrix(cam.combined);
-
-        renderer.render();
 
         // Begin sprite batch operations
-        app.batch.begin();
+        if (RENDER) {
+            // Set sprite batch's projection matrix4 to the camera.projection [matrix4] * camera.view [matrix4]
+            app.batch.setProjectionMatrix(cam.combined);
 
-        // RENDER ORDER:
-        // 0. TILEMAP
-        // 1. PLAYER
-        // 2. ALL NPCS
-        // 3. ALL ENEMIES
+            renderer.setView(cam);
+            renderer.render();
 
-        // Render player
-        player.render(app.batch);
+            app.batch.begin();
 
-        // Render all of the NPC's sprites
-        for (NPC npc : npcs) {
-            npc.render(app.batch);
+            // RENDER ORDER:
+            // 0. TILEMAP
+            // 1. PLAYER
+            // 2. ALL NPCS
+            // 3. ALL ENEMIES
+
+            // Render player
+            player.render(app.batch);
+
+            // Render all of the NPC's sprites
+            for (NPC npc : npcs) {
+                npc.render(app.batch);
+            }
+
+            // Flush sprite batch to GPU
+            app.batch.end();
         }
-
-        // Flush sprite batch to GPU
-        app.batch.end();
 
 
         // If DEBUG => render box2d debug lines up-scaled by Pixel Per Meter ratio
@@ -159,6 +144,8 @@ public class PlayState extends AbstractState {
 
     @Override
     public void dispose() {
+        tileMap.dispose();
+        renderer.dispose();
         player.dispose();
         world.dispose();
         debugRenderer.dispose();

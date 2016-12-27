@@ -19,6 +19,7 @@ public class NotTextAdventure extends Game {
 
     // A variable that states if debug mode is draw, render the Box2D Debug lines
     public static boolean DEBUG = false;
+    public static boolean RENDER = true;
 
     // Declare batches for drawing
     // Sprite/Shape Batches are used for displaying geometric figures/ textures on screen
