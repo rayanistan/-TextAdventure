@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="8" height="6" tilewidth="64" tileheight="64" nextobjectid="7">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="8" height="6" tilewidth="64" tileheight="64" nextobjectid="9">
  <tileset firstgid="1" name="main" tilewidth="64" tileheight="64" tilecount="112" columns="8">
   <image source="../tilesets/scene1_tileset.png" width="512" height="896"/>
  </tileset>
- <layer name="foreground" width="8" height="6" opacity="0.9">
+ <layer name="background" width="8" height="6" opacity="0.9">
   <data encoding="csv">
 1,2,3,4,5,6,7,8,
 9,10,11,12,13,14,15,16,
@@ -13,7 +13,7 @@
 49,50,51,52,53,54,55,56
 </data>
  </layer>
- <layer name="background" width="8" height="6" opacity="0.5">
+ <layer name="opacity layer" width="8" height="6" opacity="0.47">
   <data encoding="csv">
 57,58,59,60,61,62,63,64,
 65,66,67,68,69,70,71,72,
@@ -23,7 +23,7 @@
 0,0,0,0,0,0,0,0
 </data>
  </layer>
- <layer name="tree" width="8" height="6">
+ <layer name="foreground" width="8" height="6">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,
 0,0,97,98,99,100,0,0,
@@ -37,12 +37,12 @@
   <object id="2" x="-1" y="383">
    <polyline points="0,0 1,-383 513,-383 513,1 1,1"/>
   </object>
-  <object id="6" x="0" y="319" width="512" height="65"/>
+  <object id="6" x="0" y="320" width="512" height="64"/>
  </objectgroup>
  <objectgroup name="entities">
   <object id="3" name="Wizard" x="456" y="296" width="21" height="22"/>
  </objectgroup>
  <objectgroup name="events">
-  <object id="4" name="PlayerSpawn" x="210" y="288" width="28" height="24"/>
+  <object id="8" name="PlayerSpawn" x="225" y="307.5"/>
  </objectgroup>
 </map>

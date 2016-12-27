@@ -70,25 +70,29 @@ public final class Player implements Disposable {
 
         sprite = new Sprite();
 
-        this.body = WorldUtils.createBox(world, x, y, 32,32,
+        this.body = WorldUtils.createBox(world, x, y, 32, 32,
                 false, sprite, PLAYER_BITS, GROUND_BITS);
     }
 
     // Update animation, input, and sprite position relative to the box2d physics body
     public void update(float dt) {
 
-        // Handle key inputs to change state and shift box2d body
-        controller(dt);
 
         // Update current frame dependent on state
         handleAnimation(dt);
 
         // Set sprite position to the bottom left corner of the box2d box
-        sprite.setPosition(body.getPosition().x * PPM - sprite.getWidth() / 2,
-                body.getPosition().y * PPM - sprite.getHeight() / 2);
+        sprite.setPosition(body.getPosition().x * PPM - (sprite.getWidth() * sprite.getScaleX() / 2),
+                body.getPosition().y * PPM - (sprite.getHeight() * sprite.getScaleY() / 2));
 
         // Set sprite origin to the center of the box2d box
         sprite.setOrigin(body.getPosition().x, body.getPosition().y);
+
+        // Set scale of player sprite
+        sprite.setScale(1.25f, 1.25f);
+
+        // Handle key inputs to change state and shift box2d body
+        controller(dt);
 
     }
 
@@ -104,10 +108,11 @@ public final class Player implements Disposable {
         // Set sprite size to the width and height of the frame
         sprite.setSize(sprite.getRegionWidth(), sprite.getRegionHeight());
 
-        if (previous != current) {
+        if (previous != current && current != State.NOTHING_IDLE && current != State.SWORD_IDLE) {
             // Change body for sprite size if the state has changed
             PolygonShape shape = (PolygonShape) body.getFixtureList().first().getShape();
-            shape.setAsBox(sprite.getWidth() / 2 / PPM, sprite.getHeight() / 2 / PPM);
+            shape.setAsBox(sprite.getWidth() / 2 / PPM * sprite.getScaleX(),
+                    sprite.getHeight() / 2 / PPM * sprite.getScaleY());
         }
 
         // Add delta time to the animation timer
