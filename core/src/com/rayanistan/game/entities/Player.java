@@ -85,7 +85,7 @@ public final class Player implements Disposable {
 
         // Set sprite position to the bottom left corner of the box2d box
         sprite.setPosition(body.getPosition().x * PPM - sprite.getWidth() / 2,
-                body.getPosition().y * PPM - sprite.getHeight() / 2 - 1);
+                body.getPosition().y * PPM - sprite.getHeight() / 2);
 
         // Set sprite origin to the center of the box2d box
         sprite.setOrigin(body.getPosition().x, body.getPosition().y);

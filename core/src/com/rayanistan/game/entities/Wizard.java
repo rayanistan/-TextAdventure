@@ -28,7 +28,7 @@ public final class Wizard extends NPC {
         // Update size of box2d body
         PolygonShape shape = (PolygonShape) body.getFixtureList().first().getShape();
         shape.setAsBox(sprite.getWidth() / 2 / PPM * sprite.getScaleX(),
-                sprite.getHeight() / 2 / PPM * sprite.getScaleX());
+                sprite.getHeight() / 2 / PPM * sprite.getScaleY());
 
     }
 
