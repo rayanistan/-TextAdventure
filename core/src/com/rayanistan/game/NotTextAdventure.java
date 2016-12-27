@@ -46,8 +46,11 @@ public class NotTextAdventure extends Game {
         loadingState = new LoadingState(this);
         playState = new PlayState(this);
 
+
+
         // Change state to loading
         this.setScreen(loadingState);
+
     }
 
     @Override

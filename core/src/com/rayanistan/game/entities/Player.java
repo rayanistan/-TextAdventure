@@ -118,10 +118,10 @@ public final class Player {
         // MOVEMENT
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             flipped = true;
-            body.setLinearVelocity(-350 * dt, body.getLinearVelocity().y);
+            body.setLinearVelocity(-250 * dt, body.getLinearVelocity().y);
         } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
             flipped = false;
-            body.setLinearVelocity(350 * dt, body.getLinearVelocity().y);
+            body.setLinearVelocity(250 * dt, body.getLinearVelocity().y);
         } else {
             body.setLinearVelocity(0, body.getLinearVelocity().y);
         }
