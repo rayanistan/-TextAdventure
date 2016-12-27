@@ -1,5 +1,6 @@
 package com.rayanistan.game.utils;
 
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
@@ -16,6 +17,8 @@ import com.badlogic.gdx.utils.Array;
 import com.rayanistan.game.entities.NPC;
 import com.rayanistan.game.entities.Player;
 import com.rayanistan.game.entities.Wizard;
+
+import java.util.Map;
 
 import static com.rayanistan.game.utils.WorldUtils.Constants.GROUND_BITS;
 import static com.rayanistan.game.utils.WorldUtils.Constants.PPM;
@@ -43,26 +46,26 @@ public final class WorldUtils {
         }
     }
 
-    public static Player createPlayer(World world, TextureAtlas atlas, MapLayer layer) {
+    public static Player createPlayer(World world, AssetManager assets, MapLayer layer) {
     // Enumerate until find player spawn
         Player player = null;
         for (MapObject mo : layer.getObjects().getByType(RectangleMapObject.class)) {
             if (mo.getName().equals("PlayerSpawn")) {
                 float x = ((RectangleMapObject) mo).getRectangle().getX();
                 float y = ((RectangleMapObject) mo).getRectangle().getY();
-                player = new Player(world, atlas, x, y);
+                player = new Player(world, assets.get("sprites/player.atlas", TextureAtlas.class), x, y);
             }
         }
         return player;
     }
 
-    public static void createEntities(World world, TextureAtlas atlas, MapLayer layer, Array<NPC> npcs, short mask) {
+    public static void createEntities(World world, AssetManager assets, MapLayer layer, Map<String, NPC> npcs, short mask) {
         for (MapObject mo : layer.getObjects()) {
             if (mo instanceof  RectangleMapObject) {
                 if (mo.getName().equals("Wizard")) {
                     Rectangle bounds = ((RectangleMapObject) mo).getRectangle();
 
-                    npcs.add(new Wizard(world, atlas, bounds, mask));
+                    npcs.put("wizard", new Wizard(world, assets.get("sprites/npc.atlas", TextureAtlas.class), bounds, mask));
                 }
             }
         }

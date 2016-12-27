@@ -7,13 +7,14 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Disposable;
 import com.rayanistan.game.utils.WorldUtils;
 
 import static com.rayanistan.game.utils.WorldUtils.Constants.GROUND_BITS;
 import static com.rayanistan.game.utils.WorldUtils.Constants.PLAYER_BITS;
 import static com.rayanistan.game.utils.WorldUtils.Constants.PPM;
 
-public final class Player {
+public final class Player implements Disposable {
 
     // Player entity needs to display a sprite for a visual representation, because players are so needy
     private Sprite sprite;
