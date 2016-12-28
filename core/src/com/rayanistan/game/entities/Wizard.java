@@ -24,11 +24,23 @@ public final class Wizard extends NPC {
         // Update animation using animationTimer
         handleAnimation(dt);
 
+        // Change sprite's size based off of current frame
+        sprite.setSize(sprite.getRegionWidth(), sprite.getRegionHeight());
 
         // Update size of box2d body
         PolygonShape shape = (PolygonShape) body.getFixtureList().first().getShape();
         shape.setAsBox(sprite.getWidth() / 2 / PPM * sprite.getScaleX(),
                 sprite.getHeight() / 2 / PPM * sprite.getScaleY());
+
+        // Update scale of sprite (probably futile)
+        sprite.setScale(2.17f, 2.17f);
+
+        // Update position of sprite based off of box2d body
+        sprite.setPosition(body.getPosition().x * PPM + sprite.getScaleX() * 2,
+                body.getPosition().y * PPM - sprite.getHeight() / sprite.getScaleY() * 2);
+
+        // Update origin of sprite based off of box2d body
+        sprite.setOrigin(body.getPosition().x, body.getPosition().y);
 
     }
 
@@ -36,19 +48,6 @@ public final class Wizard extends NPC {
 
         // Get currentFrame based off of animationTimer
         sprite.setRegion(currentAnimation.getKeyFrame(animationTimer, true));
-
-        // Update scale of sprite (probably futile)
-        sprite.setScale(1.75f, 1.75f);
-
-        // Update position of sprite based off of box2d body
-        sprite.setPosition(body.getPosition().x * PPM,
-                body.getPosition().y * PPM - sprite.getHeight() / 2 * sprite.getScaleY());
-
-        // Update origin of sprite based off of box2d body
-        sprite.setOrigin(body.getPosition().x, body.getPosition().y);
-
-        // Change sprite's size based off of current frame
-        sprite.setSize(sprite.getRegionWidth(), sprite.getRegionHeight());
 
         animationTimer += dt;
     }
