@@ -32,7 +32,7 @@ public final class Player implements Disposable {
     private enum State {
         NOTHING {
             public TextureRegion getFrame(TextureAtlas atlas, float timer) {
-                return new Animation(1 / 11f, atlas.findRegions("walk")).getKeyFrame(timer, true);
+                return new Animation(1/11f, atlas.findRegions("walk")).getKeyFrame(timer, true);
             }
         },
         SWORD {
