@@ -89,7 +89,7 @@ public final class Player implements Disposable {
         sprite.setOrigin(body.getPosition().x, body.getPosition().y);
 
         // Set scale of player sprite
-        sprite.setScale(1.25f, 1.25f);
+        sprite.setScale(.90f, .90f);
 
         // Handle key inputs to change state and shift box2d body
         controller(dt);
