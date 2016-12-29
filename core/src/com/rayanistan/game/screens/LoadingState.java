@@ -1,4 +1,4 @@
-package com.rayanistan.game.states;
+package com.rayanistan.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;

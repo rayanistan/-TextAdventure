@@ -1,16 +1,14 @@
-package com.rayanistan.game.states;
+package com.rayanistan.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.rayanistan.game.NotTextAdventure;
 
 import static com.rayanistan.game.NotTextAdventure.DEBUG;
 import static com.rayanistan.game.NotTextAdventure.RENDER;
-import static com.rayanistan.game.NotTextAdventure.SCALE;
 
 // AbstractState implements from LibGDX's Screen to implement useless methods
 public abstract class AbstractState implements Screen {

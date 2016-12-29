@@ -21,6 +21,10 @@ public class GameCamera extends OrthographicCamera {
         setBounds(xmin, xmax, ymin, ymax);
     }
 
+    public GameCamera(float width, float height) {
+        super(width, height);
+    }
+
     public void setBounds(float xmin, float xmax, float ymin, float ymax) {
         this.xmin = xmin;
         this.xmax = xmax;

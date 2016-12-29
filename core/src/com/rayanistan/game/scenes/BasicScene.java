@@ -8,7 +8,7 @@ import com.badlogic.gdx.utils.Disposable;
 import com.rayanistan.game.entities.NPC;
 import com.rayanistan.game.entities.Player;
 import com.rayanistan.game.handlers.WorldContactHandler;
-import com.rayanistan.game.states.PlayState;
+import com.rayanistan.game.screens.PlayState;
 import com.rayanistan.game.utils.WorldUtils;
 
 import java.util.HashMap;

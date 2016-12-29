@@ -1,8 +1,6 @@
 package com.rayanistan.game.handlers;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.*;
-import com.rayanistan.game.entities.Player;
 
 /**
  * Created by creat on 12/28/2016.

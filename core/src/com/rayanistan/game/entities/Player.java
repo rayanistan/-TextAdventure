@@ -11,8 +11,6 @@ import com.badlogic.gdx.utils.Disposable;
 import com.rayanistan.game.handlers.WorldContactHandler;
 import com.rayanistan.game.utils.WorldUtils;
 
-import static com.rayanistan.game.utils.WorldUtils.Constants.GROUND_BITS;
-import static com.rayanistan.game.utils.WorldUtils.Constants.PLAYER_BITS;
 import static com.rayanistan.game.utils.WorldUtils.Constants.PPM;
 
 public final class Player implements Disposable {
@@ -61,7 +59,7 @@ public final class Player implements Disposable {
         public abstract TextureRegion getFrame(TextureAtlas atlas, float timer);
     }
 
-    // Keep track of current and previous states
+    // Keep track of current and previous screens
     private State previous;
     private State current;
 
@@ -71,6 +69,7 @@ public final class Player implements Disposable {
     public Player(World world, TextureAtlas atlas, float x, float y) {
 
         this.atlas = atlas;
+
 
         current = State.NOTHING;
         previous = State.NOTHING_IDLE;
@@ -82,7 +81,6 @@ public final class Player implements Disposable {
 
     // Update animation, input, and sprite position relative to the box2d physics body
     public void update(float dt) {
-
 
         // Update current frame dependent on state
         handleAnimation(dt);
@@ -103,7 +101,7 @@ public final class Player implements Disposable {
     }
 
     private void handleAnimation(float dt) {
-        // If the player change states => reset animationTimer
+        // If the player change screens => reset animationTimer
         if (previous != current) {
             animationTimer = 0;
         }
