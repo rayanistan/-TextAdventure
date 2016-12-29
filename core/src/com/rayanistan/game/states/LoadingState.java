@@ -43,8 +43,8 @@ public class LoadingState extends AbstractState {
     }
 
     private void queueAssets() {
-        app.assets.load("sprites/player.atlas", TextureAtlas.class);
         app.assets.load("sprites/npc.atlas", TextureAtlas.class);
+        app.assets.load("sprites/player.atlas", TextureAtlas.class);
         app.assets.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
         app.assets.load("maps/stage1.tmx", TiledMap.class);
     }

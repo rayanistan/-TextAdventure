@@ -46,18 +46,6 @@ public final class WorldUtils {
         }
     }
 
-    public static Player createPlayer(World world, AssetManager assets, MapLayer layer) {
-    // Enumerate until find player spawn
-        Player player = null;
-        for (MapObject mo : layer.getObjects().getByType(RectangleMapObject.class)) {
-            if (mo.getName().equals("PlayerSpawn")) {
-                float x = ((RectangleMapObject) mo).getRectangle().getX();
-                float y = ((RectangleMapObject) mo).getRectangle().getY();
-                player = new Player(world, assets.get("sprites/player.atlas", TextureAtlas.class), x, y);
-            }
-        }
-        return player;
-    }
 
     public static void createEntities(World world, AssetManager assets, MapLayer layer, Map<String, NPC> npcs, short mask) {
         for (MapObject mo : layer.getObjects()) {
@@ -69,6 +57,19 @@ public final class WorldUtils {
                 }
             }
         }
+    }
+
+    public static Player createPlayer(World world, AssetManager assets, MapLayer layer) {
+        // Enumerate until find player spawn
+        Player player = null;
+        for (MapObject mo : layer.getObjects().getByType(RectangleMapObject.class)) {
+            if (mo.getName().equals("PlayerSpawn")) {
+                float x = ((RectangleMapObject) mo).getRectangle().getX();
+                float y = ((RectangleMapObject) mo).getRectangle().getY();
+                player = new Player(world, assets.get("sprites/player.atlas", TextureAtlas.class), x, y);
+            }
+        }
+        return player;
     }
 
     // Create a class for the constants used in Box2D
