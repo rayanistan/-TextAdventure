@@ -59,7 +59,6 @@ public class BasicScene implements Disposable {
     }
 
     public void update(float dt) {
-        state.cam.lerpToTarget(player.getCenter().x, player.getCenter().y);
 
         world.step(STEP, POSITION_ITERATIONS, VELOCITY_ITERATIONS);
 
@@ -68,6 +67,8 @@ public class BasicScene implements Disposable {
         }
 
         player.update(dt);
+
+        state.cam.lerpToTarget(player.getCenter().x, player.getCenter().y);
     }
 
     public void render() {

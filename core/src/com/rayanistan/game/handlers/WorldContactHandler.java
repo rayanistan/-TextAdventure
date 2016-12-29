@@ -9,10 +9,14 @@ import com.rayanistan.game.entities.Player;
  */
 public class WorldContactHandler implements ContactListener {
 
-    private int numOfContacts = 0;
+    private int numOfContacts;
 
     public int getNumOfContacts() {
         return numOfContacts;
+    }
+
+    public WorldContactHandler() {
+        numOfContacts = 0;
     }
 
     @Override

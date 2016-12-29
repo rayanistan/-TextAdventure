@@ -47,6 +47,11 @@ public final class Player implements Disposable {
                 return new Animation(0.75f, atlas.findRegions("nothing_idle")).getKeyFrame(timer, true);
             }
         },
+        JUMPING {
+          public TextureRegion getFrame(TextureAtlas atlas, float timer) {
+              return new Animation(1 / 11f, atlas.findRegions("jump")).getKeyFrame(timer, true);
+          }
+        },
         SWORD_IDLE {
             public TextureRegion getFrame(TextureAtlas atlas, float timer) {
                 return new Animation(0.75f, atlas.findRegions("sword_idle")).getKeyFrame(timer, true);
@@ -143,9 +148,9 @@ public final class Player implements Disposable {
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
             if (wch.getNumOfContacts() > 0) {
                 body.applyForceToCenter(0, 250, true);
+                current = State.JUMPING;
             }
         }
-
 
         // SWITCHING BETWEEN SWORD AND NON SWORD
         if (Gdx.input.isKeyJustPressed(Input.Keys.Z)) {
@@ -158,6 +163,7 @@ public final class Player implements Disposable {
                 case SWORD:
                     current = State.SWORD_IDLE;
                     break;
+                case JUMPING:
                 case NOTHING:
                     current = State.NOTHING_IDLE;
             }
@@ -166,12 +172,18 @@ public final class Player implements Disposable {
                 case SWORD_IDLE:
                     current = State.SWORD;
                     break;
+                case JUMPING:
                 case NOTHING_IDLE:
                     current = State.NOTHING;
                     break;
             }
         }
 
+        if (wch.getNumOfContacts() > 0) {
+            if (current == State.JUMPING) {
+                current = State.NOTHING_IDLE;
+            }
+        }
 
     }
 

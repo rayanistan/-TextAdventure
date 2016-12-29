@@ -165,7 +165,7 @@ public final class WorldUtils {
         fixtureDef.density = 1.0f;
         body.createFixture(fixtureDef);
 
-        shape.setAsBox(width / 2 / PPM, height / 8 / PPM, new Vector2(0, -height / 2 / PPM), 0);
+        shape.setAsBox(width / 2 / PPM, height / 8 / PPM, new Vector2(0, -height * 3 / 8 / PPM), 0);
         fixtureDef.shape = shape;
         fixtureDef.isSensor = true;
         body.createFixture(fixtureDef).setUserData("player-foot");
