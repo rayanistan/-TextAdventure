@@ -17,7 +17,7 @@ g
   size: 11, 14
   orig: 18, 21
   offset: 4, 5
-  index: 2
+  index: 3
 g
   rotate: false
   xy: 64, 4
@@ -31,7 +31,7 @@ g
   size: 11, 14
   orig: 18, 21
   offset: 4, 5
-  index: 3
+  index: 2
 g
   rotate: false
   xy: 77, 4
@@ -87,7 +87,7 @@ w
   size: 12, 16
   orig: 16, 21
   offset: 1, 5
-  index: 2
+  index: 3
 w
   rotate: false
   xy: 36, 2
@@ -101,7 +101,7 @@ w
   size: 12, 16
   orig: 16, 21
   offset: 1, 5
-  index: 3
+  index: 2
 w
   rotate: false
   xy: 50, 2
