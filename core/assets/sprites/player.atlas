@@ -4,30 +4,65 @@ size: 1024,64
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-nothing_idle
+jump
   rotate: false
   xy: 571, 2
+  size: 25, 30
+  orig: 32, 33
+  offset: 4, 0
+  index: 0
+jump
+  rotate: false
+  xy: 571, 2
+  size: 25, 30
+  orig: 32, 33
+  offset: 4, 0
+  index: 4
+jump
+  rotate: false
+  xy: 571, 2
+  size: 25, 30
+  orig: 32, 33
+  offset: 4, 0
+  index: 1
+jump
+  rotate: false
+  xy: 598, 2
+  size: 25, 30
+  orig: 39, 36
+  offset: 5, 4
+  index: 2
+jump
+  rotate: false
+  xy: 598, 2
+  size: 25, 30
+  orig: 39, 36
+  offset: 5, 4
+  index: 3
+nothing_idle
+  rotate: false
+  xy: 625, 2
   size: 25, 30
   orig: 29, 33
   offset: 0, 1
   index: 0
 nothing_idle
   rotate: false
-  xy: 571, 2
-  size: 25, 30
-  orig: 29, 33
-  offset: 0, 1
-  index: 2
-nothing_idle
-  rotate: false
-  xy: 571, 2
+  xy: 625, 2
   size: 25, 30
   orig: 29, 33
   offset: 0, 1
   index: 1
 nothing_idle
   rotate: false
-  xy: 598, 2
+  xy: 625, 2
+  size: 25, 30
+  orig: 29, 33
+  offset: 0, 1
+  index: 2
+nothing_idle
+  rotate: false
+  xy: 652, 2
   size: 25, 30
   orig: 34, 33
   offset: 5, 1
@@ -174,42 +209,42 @@ walk
   index: 3
 walk
   rotate: false
-  xy: 625, 2
+  xy: 679, 2
   size: 25, 30
   orig: 35, 34
   offset: 7, 2
   index: 2
 walk
   rotate: false
-  xy: 652, 2
+  xy: 706, 2
   size: 25, 30
   orig: 35, 34
   offset: 8, 2
   index: 4
 walk
   rotate: false
-  xy: 679, 2
+  xy: 733, 2
   size: 25, 30
   orig: 39, 40
   offset: 12, 8
   index: 6
 walk
   rotate: false
-  xy: 706, 2
+  xy: 760, 2
   size: 25, 30
   orig: 30, 45
   offset: 5, 6
   index: 7
 walk
   rotate: false
-  xy: 733, 2
+  xy: 787, 2
   size: 25, 30
   orig: 41, 43
   offset: 10, 4
   index: 11
 walk_005,png
   rotate: false
-  xy: 760, 2
+  xy: 814, 2
   size: 25, 30
   orig: 31, 36
   offset: 4, 4
