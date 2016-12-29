@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Disposable;
+import com.rayanistan.game.handlers.WorldContactHandler;
 import com.rayanistan.game.utils.WorldUtils;
 
 import static com.rayanistan.game.utils.WorldUtils.Constants.GROUND_BITS;
@@ -27,6 +28,7 @@ public final class Player implements Disposable {
 
     // Used this to keep track of which frame of the animation the sprite should show
     private float animationTimer = 0;
+    public WorldContactHandler wch;
 
     // State enum to keep track of current frame to be displayed
     private enum State {
@@ -70,8 +72,7 @@ public final class Player implements Disposable {
 
         sprite = new Sprite();
 
-        this.body = WorldUtils.createBox(world, x, y, 32, 32,
-                false, sprite, PLAYER_BITS, GROUND_BITS);
+        this.body = WorldUtils.createPlayerBody(world, x, y, 32, 32,this);
     }
 
     // Update animation, input, and sprite position relative to the box2d physics body
@@ -83,7 +84,7 @@ public final class Player implements Disposable {
 
         // Set sprite position to the bottom left corner of the box2d box
         sprite.setPosition(body.getPosition().x * PPM - (sprite.getWidth() * sprite.getScaleX() / 2),
-                body.getPosition().y * PPM - (sprite.getHeight() * sprite.getScaleY() / 2));
+                body.getPosition().y * PPM - (sprite.getHeight() * sprite.getScaleY() / 2) - 1);
 
         // Set sprite origin to the center of the box2d box
         sprite.setOrigin(body.getPosition().x, body.getPosition().y);
@@ -140,7 +141,9 @@ public final class Player implements Disposable {
 
         // JUMPING
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-            body.applyForceToCenter(0, 250, true);
+            if (wch.getNumOfContacts() > 0) {
+                body.applyForceToCenter(0, 250, true);
+            }
         }
 
 

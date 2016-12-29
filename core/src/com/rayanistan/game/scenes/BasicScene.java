@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Disposable;
 import com.rayanistan.game.entities.NPC;
 import com.rayanistan.game.entities.Player;
+import com.rayanistan.game.handlers.WorldContactHandler;
 import com.rayanistan.game.states.PlayState;
 import com.rayanistan.game.utils.WorldUtils;
 
@@ -32,9 +33,11 @@ public class BasicScene implements Disposable {
     private PlayState state;
 
     public BasicScene(int level, PlayState state, World world, TiledMap map) {
+        WorldContactHandler wch = new WorldContactHandler();
         this.level = level;
         this.state = state;
         this.world = world;
+        this.world.setContactListener(wch);
         this.map = map;
         NPCS = new HashMap<String, NPC>();
         renderer = new OrthogonalTiledMapRenderer(map);
@@ -48,6 +51,7 @@ public class BasicScene implements Disposable {
         state.cam.setBounds(0, levelWidth * tileWidth, 0, levelHeight * tileHeight);
 
         player = WorldUtils.createPlayer(world, state.getApp().assets, map.getLayers().get("events"));
+        player.wch = wch;
 
         WorldUtils.createEntities(world, state.getApp().assets, map.getLayers().get("entities"), NPCS, GROUND_BITS);
 
@@ -82,13 +86,14 @@ public class BasicScene implements Disposable {
             // 2. ALL NPCS
             // 3. ALL ENEMIES
 
-            // Render player
-            player.render(state.getApp().batch);
 
             // Render all of the NPC's sprites
             for (NPC npc : NPCS.values()) {
                 npc.render(state.getApp().batch);
             }
+
+            // Render player
+            player.render(state.getApp().batch);
 
             // Flush sprite batch to GPU
             state.getApp().batch.end();

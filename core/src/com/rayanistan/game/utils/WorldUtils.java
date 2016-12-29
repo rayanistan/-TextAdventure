@@ -21,6 +21,7 @@ import com.rayanistan.game.entities.Wizard;
 import java.util.Map;
 
 import static com.rayanistan.game.utils.WorldUtils.Constants.GROUND_BITS;
+import static com.rayanistan.game.utils.WorldUtils.Constants.PLAYER_BITS;
 import static com.rayanistan.game.utils.WorldUtils.Constants.PPM;
 
 public final class WorldUtils {
@@ -31,17 +32,12 @@ public final class WorldUtils {
                 Rectangle bounds = ((RectangleMapObject) mo).getRectangle();
 
                 createBox(world, bounds.getX() + bounds.getWidth() / 2, bounds.getY() + bounds.getHeight() / 2 - 1,
-                        bounds.getWidth(), bounds.getHeight(), true, null, GROUND_BITS, mask);
+                        bounds.getWidth(), bounds.getHeight(), true, "ground", GROUND_BITS, mask);
             } else if (mo instanceof PolylineMapObject) {
                 Polyline bounds = ((PolylineMapObject) mo).getPolyline();
                 float[] vertices = bounds.getTransformedVertices();
 
-                createPolyline(world, vertices, true, mask, GROUND_BITS);
-            } else if (mo instanceof PolygonMapObject) {
-                Polygon bounds = ((PolygonMapObject) mo).getPolygon();
-                float[] vertices = bounds.getTransformedVertices();
-
-                createPolyline(world, vertices, true, mask, GROUND_BITS);
+                createPolyline(world, vertices, true, mask, GROUND_BITS, "border");
             }
         }
     }
@@ -49,7 +45,7 @@ public final class WorldUtils {
 
     public static void createEntities(World world, AssetManager assets, MapLayer layer, Map<String, NPC> npcs, short mask) {
         for (MapObject mo : layer.getObjects()) {
-            if (mo instanceof  RectangleMapObject) {
+            if (mo instanceof RectangleMapObject) {
                 if (mo.getName().equals("Wizard")) {
                     Rectangle bounds = ((RectangleMapObject) mo).getRectangle();
 
@@ -120,7 +116,7 @@ public final class WorldUtils {
         return body;
     }
 
-    public static Body createPolyline(World world, float vertices[], boolean isStatic, short mask, short category) {
+    public static Body createPolyline(World world, float vertices[], boolean isStatic, short mask, short category, Object userData) {
         Body body;
 
         BodyDef bodyDef = new BodyDef();
@@ -147,7 +143,34 @@ public final class WorldUtils {
         fixtureDef.filter.categoryBits = category;
         fixtureDef.filter.maskBits = mask;
 
+        body.createFixture(fixtureDef).setUserData(userData);
+        return body;
+    }
+
+    public static Body createPlayerBody(World world, float x, float y, float width, float height, Object userData) {
+        Body body;
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        bodyDef.position.set(x / PPM, y / PPM);
+        bodyDef.fixedRotation = true;
+        body = world.createBody(bodyDef);
+        body.setUserData(userData);
+
+        FixtureDef fixtureDef = new FixtureDef();
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(width / 2 / PPM, height / 2 / PPM);
+        fixtureDef.shape = shape;
+        fixtureDef.filter.categoryBits = PLAYER_BITS;
+        fixtureDef.filter.maskBits = GROUND_BITS;
+        fixtureDef.density = 1.0f;
         body.createFixture(fixtureDef);
+
+        shape.setAsBox(width / 2 / PPM, height / 8 / PPM, new Vector2(0, -height / 2 / PPM), 0);
+        fixtureDef.shape = shape;
+        fixtureDef.isSensor = true;
+        body.createFixture(fixtureDef).setUserData("player-foot");
+        shape.dispose();
+
         return body;
     }
 }

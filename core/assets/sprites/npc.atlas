@@ -52,13 +52,6 @@ s
   size: 15, 14
   orig: 19, 20
   offset: 4, 4
-  index: 3
-s
-  rotate: false
-  xy: 2, 4
-  size: 15, 14
-  orig: 19, 20
-  offset: 4, 4
   index: 2
 s
   rotate: false
@@ -67,6 +60,13 @@ s
   orig: 19, 20
   offset: 4, 4
   index: 1
+s
+  rotate: false
+  xy: 2, 4
+  size: 15, 14
+  orig: 19, 20
+  offset: 4, 4
+  index: 3
 s
   rotate: false
   xy: 19, 4
