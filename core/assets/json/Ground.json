@@ -1,0 +1,19 @@
+{
+  BodyDef: {
+    BodyType: "StaticBody",
+    fixedRotation: true,
+    x: 13,
+    y: 0,
+    rotation: 0
+  },
+  Fixtures: [
+    {
+      descriptor: "main",
+      shape: "PolygonShape",
+      width: 26,
+      height: 2,
+      density: 1.2,
+      isSensor: false,
+    }
+  ]
+}

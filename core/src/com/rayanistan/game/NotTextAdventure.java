@@ -3,8 +3,8 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.rayanistan.game.screens.LoadingState;
-import com.rayanistan.game.screens.PlayState;
+import com.rayanistan.game.screens.LoadingScreen;
+import com.rayanistan.game.screens.PlayScreen;
 
 public class NotTextAdventure extends Game {
 
@@ -26,8 +26,8 @@ public class NotTextAdventure extends Game {
     public ShapeRenderer shapeRenderer;
 
     // Declare screens that will later be loaded
-    public LoadingState loadingState;
-    public PlayState playState;
+    public LoadingScreen loadingScreen;
+    public PlayScreen playScreen;
 
     // Asset manager is used to loading assets in the beginning then referenced later
     public AssetManager assets;
@@ -43,12 +43,12 @@ public class NotTextAdventure extends Game {
         assets = new AssetManager();
 
         // Instantiate screens
-        loadingState = new LoadingState(this);
-        playState = new PlayState(this);
+        loadingScreen = new LoadingScreen(this);
+        playScreen = new PlayScreen(this);
 
 
         // Change state to loading
-        this.setScreen(loadingState);
+        this.setScreen(loadingScreen);
 
     }
 

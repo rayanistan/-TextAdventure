@@ -1,0 +1,5 @@
+{
+  map: "maps/stage1.tmx",
+  collisionLayer: "collisions",
+  eventLayer: "events"
+}

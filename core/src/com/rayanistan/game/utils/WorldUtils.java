@@ -38,8 +38,8 @@ public final class WorldUtils {
         }
     }
 
-
-    public static void createEntities(World world, AssetManager assets, MapLayer layer, Map<String, NPC> npcs, short mask) {
+    public static void createEntities(World world, AssetManager assets, MapLayer layer,
+                                      Map<String, NPC> npcs, short mask) {
         for (MapObject mo : layer.getObjects()) {
             if (mo instanceof RectangleMapObject) {
                 if (mo.getName().equals("Wizard")) {
@@ -112,7 +112,8 @@ public final class WorldUtils {
         return body;
     }
 
-    public static Body createPolyline(World world, float vertices[], boolean isStatic, short mask, short category, Object userData) {
+    public static Body createPolyline(World world, float vertices[], boolean isStatic,
+                                      short mask, short category, Object userData) {
         Body body;
 
         BodyDef bodyDef = new BodyDef();
@@ -143,7 +144,8 @@ public final class WorldUtils {
         return body;
     }
 
-    public static Body createPlayerBody(World world, float x, float y, float width, float height, Object userData) {
+    public static Body createPlayerBody(World world, float x, float y,
+                                        float width, float height, Object userData) {
         Body body;
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;

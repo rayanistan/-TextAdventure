@@ -1,11 +1,11 @@
-package com.rayanistan.game.handlers;
+package com.rayanistan.game.utils;
 
 import com.badlogic.gdx.physics.box2d.*;
 
 /**
  * Created by creat on 12/28/2016.
  */
-public class WorldContactHandler implements ContactListener {
+public class WorldContactListener implements ContactListener {
 
     private int numOfContacts;
 
@@ -13,7 +13,7 @@ public class WorldContactHandler implements ContactListener {
         return numOfContacts;
     }
 
-    public WorldContactHandler() {
+    public WorldContactListener() {
         numOfContacts = 0;
     }
 

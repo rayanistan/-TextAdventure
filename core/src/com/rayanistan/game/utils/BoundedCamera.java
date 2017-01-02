@@ -3,25 +3,26 @@ package com.rayanistan.game.utils;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 
-public class GameCamera extends OrthographicCamera {
+public class BoundedCamera extends OrthographicCamera {
 
     private float xmin;
     private float xmax;
     private float ymin;
     private float ymax;
 
-    public GameCamera() {
+    public BoundedCamera() {
         this(0, 0, 0, 0);
     }
 
-    public GameCamera(float xmin, float xmax, float ymin, float ymax) {
+    public BoundedCamera(float xmin, float xmax, float ymin, float ymax) {
         super();
         setBounds(xmin, xmax, ymin, ymax);
     }
 
-    public GameCamera(float width, float height) {
+    public BoundedCamera(float width, float height) {
         super(width, height);
     }
 
@@ -51,4 +52,7 @@ public class GameCamera extends OrthographicCamera {
         update();
     }
 
+    public Matrix4 getDebugMatrix(float pixelsPerMeter) {
+        return this.combined.cpy().scl(pixelsPerMeter);
+    }
 }
