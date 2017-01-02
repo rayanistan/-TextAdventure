@@ -6,63 +6,63 @@ filter: Nearest,Nearest
 repeat: none
 jump
   rotate: false
-  xy: 571, 2
+  xy: 568, 2
   size: 25, 30
   orig: 32, 33
   offset: 4, 0
   index: 0
 jump
   rotate: false
-  xy: 571, 2
+  xy: 568, 2
   size: 25, 30
   orig: 32, 33
   offset: 4, 0
   index: 4
 jump
   rotate: false
-  xy: 571, 2
+  xy: 568, 2
   size: 25, 30
   orig: 32, 33
   offset: 4, 0
   index: 1
 jump
   rotate: false
-  xy: 598, 2
+  xy: 595, 2
   size: 25, 30
   orig: 39, 36
   offset: 5, 4
   index: 2
 jump
   rotate: false
-  xy: 598, 2
+  xy: 595, 2
   size: 25, 30
   orig: 39, 36
   offset: 5, 4
   index: 3
 nothing_idle
   rotate: false
-  xy: 625, 2
+  xy: 622, 2
   size: 25, 30
   orig: 29, 33
   offset: 0, 1
   index: 0
 nothing_idle
   rotate: false
-  xy: 625, 2
+  xy: 622, 2
   size: 25, 30
   orig: 29, 33
   offset: 0, 1
   index: 2
 nothing_idle
   rotate: false
-  xy: 625, 2
+  xy: 622, 2
   size: 25, 30
   orig: 29, 33
   offset: 0, 1
   index: 1
 nothing_idle
   rotate: false
-  xy: 652, 2
+  xy: 649, 2
   size: 25, 30
   orig: 34, 33
   offset: 5, 1
@@ -125,21 +125,21 @@ s
   index: 6
 s
   rotate: false
-  xy: 392, 2
+  xy: 328, 2
   size: 29, 30
   orig: 32, 32
   offset: 0, 0
   index: 5
 s
   rotate: false
-  xy: 423, 2
+  xy: 359, 2
   size: 29, 30
   orig: 32, 32
   offset: 0, 0
   index: 7
 s
   rotate: false
-  xy: 485, 2
+  xy: 452, 2
   size: 28, 30
   orig: 32, 32
   offset: 0, 0
@@ -174,77 +174,77 @@ sword_idle
   index: 3
 walk
   rotate: false
-  xy: 328, 2
-  size: 30, 30
+  xy: 390, 2
+  size: 29, 30
   orig: 35, 39
   offset: 4, 6
   index: 8
 walk
   rotate: false
-  xy: 360, 2
-  size: 30, 30
-  orig: 35, 37
-  offset: 4, 2
-  index: 9
-walk
-  rotate: false
-  xy: 454, 2
+  xy: 421, 2
   size: 29, 30
   orig: 40, 51
   offset: 8, 9
   index: 10
 walk
   rotate: false
-  xy: 515, 2
+  xy: 482, 2
+  size: 28, 30
+  orig: 35, 37
+  offset: 4, 2
+  index: 9
+walk
+  rotate: false
+  xy: 512, 2
   size: 26, 30
   orig: 31, 33
   offset: 4, 1
   index: 1
 walk
   rotate: false
-  xy: 543, 2
+  xy: 540, 2
   size: 26, 30
   orig: 35, 34
   offset: 5, 2
   index: 3
 walk
   rotate: false
-  xy: 679, 2
+  xy: 676, 2
   size: 25, 30
   orig: 35, 34
   offset: 7, 2
   index: 2
 walk
   rotate: false
-  xy: 706, 2
+  xy: 703, 2
   size: 25, 30
   orig: 35, 34
   offset: 8, 2
   index: 4
 walk
   rotate: false
-  xy: 733, 2
+  xy: 730, 2
   size: 25, 30
   orig: 39, 40
   offset: 12, 8
   index: 6
 walk
   rotate: false
-  xy: 760, 2
+  xy: 757, 2
   size: 25, 30
   orig: 30, 45
   offset: 5, 6
   index: 7
 walk
   rotate: false
-  xy: 787, 2
+  xy: 784, 2
   size: 25, 30
   orig: 41, 43
   offset: 10, 4
   index: 11
 walk_005,png
   rotate: false
-  xy: 814, 2
+  xy: 811, 2
   size: 25, 30
   orig: 31, 36
   offset: 4, 4

@@ -5,6 +5,8 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.rayanistan.game.NotTextAdventure;
 import com.rayanistan.game.scenes.BasicScene;
 import com.rayanistan.game.utils.GameCamera;
@@ -32,7 +34,7 @@ public class PlayState extends AbstractState {
         cam = new GameCamera();
 
         // Make extend viewport to maintain aspect ratio
-        viewport = new ExtendViewport(V_WIDTH, V_HEIGHT, cam);
+        viewport = new FitViewport(V_WIDTH, V_HEIGHT, cam);
         viewport.apply();
     }
 
