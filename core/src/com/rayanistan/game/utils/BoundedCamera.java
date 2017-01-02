@@ -43,15 +43,6 @@ public class BoundedCamera extends OrthographicCamera {
         position.y = MathUtils.clamp(position.y, ymin + viewportHeight / 2, ymax - viewportHeight / 2);
     }
 
-    public void lerpToTarget(float x, float y) {
-        Vector3 position = this.position;
-
-        position.x = MathUtils.lerp(position.x, x, 0.1f);
-        position.y = MathUtils.lerp(position.y, y, 0.1f);
-        this.position.set(position);
-        update();
-    }
-
     public Matrix4 getDebugMatrix(float pixelsPerMeter) {
         return this.combined.cpy().scl(pixelsPerMeter);
     }

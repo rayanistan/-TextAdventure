@@ -2,8 +2,6 @@
   BodyDef: {
     BodyType: "DynamicBody",
     fixedRotation: true,
-    x: 10,
-    y: 4,
     rotation: 0
   },
   Fixtures: [
@@ -12,6 +10,8 @@
       shape: "PolygonShape",
       x: 0,
       y: 0,
+      width: 0.78125,
+      height: 0.9375,
       density: 1.2,
       isSensor: false
     },
@@ -19,8 +19,8 @@
       descriptor: "footSensor",
       shape: "PolygonShape",
       x: 0,
-      y: -0.5,
-      width: 1,
+      y: -0.36,
+      width: 0.68,
       height: 0.25,
       density: 1.2,
       isSensor: true

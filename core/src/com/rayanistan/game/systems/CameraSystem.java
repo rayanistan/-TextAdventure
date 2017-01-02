@@ -23,8 +23,11 @@ public class CameraSystem extends IteratingSystem {
         FocalPointComponent focalPoint = Mappers.focalMapper.get(entity);
 
         if (focalPoint.current) {
-            camera.position.interpolate(new Vector3(focalPoint.position.x, focalPoint.position.y, 0),
+
+            camera.position.interpolate(new Vector3(focalPoint.position.x,
+                            focalPoint.position.y, 0),
                     0.1f, Interpolation.linear);
+
             camera.update();
         }
     }

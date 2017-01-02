@@ -40,7 +40,7 @@
   <object id="6" x="0" y="320" width="512" height="64"/>
  </objectgroup>
  <objectgroup name="events">
-  <object id="8" name="PlayerSpawn" x="141.5" y="297" width="24" height="16.5"/>
-  <object id="9" name="WizardSpawn" x="410.5" y="304" width="14.5" height="9"/>
+  <object id="8" name="PlayerSpawn" x="168.167" y="287.667" width="32" height="32"/>
+  <object id="9" name="WizardSpawn" x="408.5" y="291.333" width="14.5" height="28"/>
  </objectgroup>
 </map>

@@ -56,8 +56,11 @@ public class PlayerArchetype implements Archetype {
         transform.scale = new Vector2(1f, 1f);
         sprite.sprite.setScale(transform.scale.x, transform.scale.y);
 
-        // Generate body by using readFromJson method with File of bodies/PlayerBody
-        body.body = BodyUtils.readFromJson(new FileHandle("json/PlayerBody.json"), sprite.sprite);
+        // Generate body by using readFromJson
+        Vector2 spriteCenter = new Vector2(sprite.sprite.getX() + sprite.sprite.getWidth() / 2,
+                sprite.sprite.getY() + sprite.sprite.getHeight() / 2);
+
+        body.body = BodyUtils.readFromJson(new FileHandle("json/PlayerBody.json"), spriteCenter);
 
         // Set focalPoint.current to true
         focalPoint.current = true;

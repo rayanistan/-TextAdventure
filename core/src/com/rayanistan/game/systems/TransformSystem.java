@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.rayanistan.game.components.BodyComponent;
 import com.rayanistan.game.components.SpriteComponent;
 import com.rayanistan.game.components.TransformComponent;
-import com.rayanistan.game.utils.BodyUtils;
+import com.rayanistan.game.utils.Constants;
 import com.rayanistan.game.utils.Mappers;
 
 public class TransformSystem extends IteratingSystem {
@@ -26,7 +26,7 @@ public class TransformSystem extends IteratingSystem {
         // BodyComponent => TransformComponent => SpriteComponent
         if (transform != null) {
             Vector2 position = body.body.getPosition();
-            transform.position = position.scl(BodyUtils.PPM);
+            transform.position = position.scl(Constants.PPM);
             transform.rotation = body.body.getAngle() * MathUtils.radiansToDegrees;
 
             if (sprite != null) {

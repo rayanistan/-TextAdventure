@@ -2,16 +2,13 @@ package com.rayanistan.game.archetypes;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.rayanistan.game.components.AnimationComponent;
-import com.rayanistan.game.components.BodyComponent;
 import com.rayanistan.game.components.SpriteComponent;
 import com.rayanistan.game.components.TransformComponent;
 import com.rayanistan.game.interfaces.Archetype;
-import com.rayanistan.game.utils.BodyUtils;
 
 public class WizardArchetype implements Archetype {
 
@@ -30,7 +27,6 @@ public class WizardArchetype implements Archetype {
         // Create components
         AnimationComponent animation = new AnimationComponent();
         SpriteComponent sprite = new SpriteComponent();
-        BodyComponent body = new BodyComponent();
         TransformComponent transform = new TransformComponent();
 
         // Create idle animation
@@ -42,16 +38,13 @@ public class WizardArchetype implements Archetype {
 
         sprite.sprite.setRegion(animation.getFrame());
         sprite.sprite.setSize(sprite.sprite.getRegionWidth(), sprite.sprite.getRegionHeight());
-        sprite.sprite.setPosition(position.x, position.y);
 
-        transform.scale = new Vector2(2.5f, 2.5f);
+        transform.scale = new Vector2(2.2f, 2.2f);
         sprite.sprite.setScale(transform.scale.x, transform.scale.y);
-
-        body.body = BodyUtils.readFromJson(new FileHandle("json/WizardBody.json"), sprite.sprite);
+        sprite.sprite.setPosition(position.x, position.y);
 
         wizard.add(animation);
         wizard.add(sprite);
-        wizard.add(body);
         wizard.add(transform);
 
         return wizard;

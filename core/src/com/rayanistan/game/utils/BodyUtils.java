@@ -2,7 +2,6 @@ package com.rayanistan.game.utils;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -12,16 +11,6 @@ import com.badlogic.gdx.utils.JsonValue;
 
 public final class BodyUtils {
 
-    // Pixel per meter ratio, used to convert Box2D units over to screen units
-    public final static int PPM = 32;
-
-    // World step, How many times should the physics world update
-    public final static float STEP = 1 / 60f;
-
-    // Velocity Iterations and Position Iterations, don't know too much about
-    public final static int VELOCITY_ITERATIONS = 6;
-    public final static int POSITION_ITERATIONS = 2;
-
     private final static String TAG = BodyUtils.class.getSimpleName();
 
     private static World world;
@@ -30,7 +19,7 @@ public final class BodyUtils {
         BodyUtils.world = world;
     }
 
-    public static Body readFromJson(FileHandle handle, Sprite sprite) {
+    public static Body readFromJson(FileHandle handle, Vector2 position) {
 
         Body body;
 
@@ -53,11 +42,10 @@ public final class BodyUtils {
             Gdx.app.error(TAG, "BodyType is not a valid body type: " + bodyType);
 
         // Check for fixed rotation
-        boolean fixedRotation = jsonBodyDef.getBoolean("fixedRotation");
-        bodyDef.fixedRotation = fixedRotation;
+        bodyDef.fixedRotation = jsonBodyDef.getBoolean("fixedRotation");
 
         // Set position based off of rectangle
-        bodyDef.position.set((sprite.getX() + sprite.getWidth() / 2) / PPM, (sprite.getY() + sprite.getHeight()) / PPM);
+        bodyDef.position.set(position.x / Constants.PPM, position.y / Constants.PPM);
 
         bodyDef.angle = jsonBodyDef.getFloat("rotation") * MathUtils.degreesToRadians;
 
@@ -73,13 +61,8 @@ public final class BodyUtils {
             if (shapeString.equalsIgnoreCase("PolygonShape")) {
                 PolygonShape shape = new PolygonShape();
 
-                if (value.getString("descriptor").equalsIgnoreCase("main"))
-                    shape.setAsBox(sprite.getWidth() * sprite.getScaleX() / PPM / 2,
-                            sprite.getHeight() * sprite.getScaleY() / PPM / 2);
-
-                else
-                    shape.setAsBox(value.getFloat("width") / 2,
-                            value.getFloat("height") / 2, new Vector2(value.getFloat("x"), value.getFloat("y")), 0);
+                shape.setAsBox(value.getFloat("width") / 2,
+                        value.getFloat("height") / 2, new Vector2(value.getFloat("x"), value.getFloat("y")), 0);
 
                 fixtureDef.shape = shape;
             }
@@ -99,17 +82,18 @@ public final class BodyUtils {
         BodyDef bodyDef = new BodyDef();
 
         bodyDef.fixedRotation = true;
-        bodyDef.position.set((bounds.getX() + bounds.getWidth() / 2) / PPM,
-                (bounds.getY() + bounds.getHeight() / 2) / PPM);
+        bodyDef.position.set((bounds.getX() + bounds.getWidth() / 2) / Constants.PPM,
+                (bounds.getY() + bounds.getHeight() / 2) / Constants.PPM);
         bodyDef.type = BodyDef.BodyType.StaticBody;
 
         body = world.createBody(bodyDef);
 
         FixtureDef fixtureDef = new FixtureDef();
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(bounds.getWidth() / 2 / PPM, bounds.getHeight() / 2 / PPM);
+        shape.setAsBox(bounds.getWidth() / 2 / Constants.PPM, bounds.getHeight() / 2 / Constants.PPM);
         fixtureDef.shape = shape;
         fixtureDef.density = 1.2f;
+        fixtureDef.friction = 0;
 
         body.createFixture(fixtureDef);
 
@@ -130,6 +114,7 @@ public final class BodyUtils {
         cs.createChain(vertices);
         fixtureDef.shape = cs;
         fixtureDef.density = 1.2f;
+        fixtureDef.friction = 0;
 
         body.createFixture(fixtureDef);
 

@@ -93,8 +93,7 @@ public class PlayScreen extends ScreenAdapter {
         entityEngine.addEntity(WizardArchetype.spawnEntity(app.assets,
                 new Vector2(wizardProps.get("x", Float.class), wizardProps.get("y", Float.class))));
 
-        new CollisionSystem(world, new Array<CollisionListener>()).collisionListeners.add(collisionSystem);
-
+        new CollisionSystem(world).collisionListeners.add(collisionSystem);
         entityEngine.addSystem(collisionSystem);
     }
 

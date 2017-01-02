@@ -8,9 +8,9 @@ public class CollisionSystem implements ContactListener {
 
     public Array<CollisionListener> collisionListeners;
 
-    public CollisionSystem(World world, Array<CollisionListener> collisionListeners) {
+    public CollisionSystem(World world) {
         world.setContactListener(this);
-        this.collisionListeners = collisionListeners;
+        this.collisionListeners = new Array<CollisionListener>();
     }
 
     @Override
