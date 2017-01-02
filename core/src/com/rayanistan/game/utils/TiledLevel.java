@@ -14,7 +14,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 
-import static com.rayanistan.game.utils.WorldUtils.Constants.PPM;
+import static com.rayanistan.game.utils.BodyUtils.PPM;
 
 public class TiledLevel {
 

@@ -10,11 +10,20 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 
-import static com.rayanistan.game.utils.WorldUtils.Constants.PPM;
-
 public final class BodyUtils {
 
+    // Pixel per meter ratio, used to convert Box2D units over to screen units
+    public final static int PPM = 32;
+
+    // World step, How many times should the physics world update
+    public final static float STEP = 1 / 60f;
+
+    // Velocity Iterations and Position Iterations, don't know too much about
+    public final static int VELOCITY_ITERATIONS = 6;
+    public final static int POSITION_ITERATIONS = 2;
+
     private final static String TAG = BodyUtils.class.getSimpleName();
+
     private static World world;
 
     public static void setWorld(World world) {

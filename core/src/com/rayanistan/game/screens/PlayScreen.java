@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.rayanistan.game.NotTextAdventure;
 import com.rayanistan.game.archetypes.PlayerArchetype;
+import com.rayanistan.game.archetypes.WizardArchetype;
 import com.rayanistan.game.interfaces.CollisionListener;
 import com.rayanistan.game.systems.*;
 import com.rayanistan.game.utils.BodyUtils;
@@ -81,10 +82,16 @@ public class PlayScreen extends ScreenAdapter {
         entityEngine.addSystem(debugRenderingSystem);
 
         MapObject playerSpawn = level.getEvents().get("PlayerSpawn");
-        MapProperties props = playerSpawn.getProperties();
+        MapProperties playerProps = playerSpawn.getProperties();
+
+        MapObject wizardSpawn = level.getEvents().get("WizardSpawn");
+        MapProperties wizardProps = wizardSpawn.getProperties();
 
         entityEngine.addEntity(PlayerArchetype.spawnEntity(app.assets,
-                new Vector2(props.get("x", Float.class), props.get("y", Float.class))));
+                new Vector2(playerProps.get("x", Float.class), playerProps.get("y", Float.class))));
+
+        entityEngine.addEntity(WizardArchetype.spawnEntity(app.assets,
+                new Vector2(wizardProps.get("x", Float.class), wizardProps.get("y", Float.class))));
 
         new CollisionSystem(world, new Array<CollisionListener>()).collisionListeners.add(collisionSystem);
 

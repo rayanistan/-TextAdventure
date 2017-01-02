@@ -23,6 +23,7 @@ public class PlayerInputSystem extends IteratingSystem {
         TransformComponent transform = Mappers.transformMapper.get(entity);
         FocalPointComponent focalPoint = Mappers.focalMapper.get(entity);
         BodyComponent body = Mappers.physicsMapper.get(entity);
+        PlayerComponent player = Mappers.playerMapper.get(entity);
 
         float speed = 350 * transform.scale.x * dt;
 
@@ -36,7 +37,7 @@ public class PlayerInputSystem extends IteratingSystem {
             transform.velocity.x = 0;
         }
 
-        if (Gdx.input.isKeyJustPressed(SPACE)) {
+        if (Gdx.input.isKeyJustPressed(SPACE) && player.numOfContactsWithFoot > 0) {
             body.body.applyForceToCenter(0, 250, true);
         }
 
