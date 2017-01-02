@@ -3,8 +3,8 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.rayanistan.game.states.LoadingState;
-import com.rayanistan.game.states.PlayState;
+import com.rayanistan.game.screens.LoadingScreen;
+import com.rayanistan.game.screens.PlayScreen;
 
 public class NotTextAdventure extends Game {
 
@@ -13,11 +13,10 @@ public class NotTextAdventure extends Game {
     public static final int WIDTH = 800;
     public static final int HEIGHT = 480;
     public static final String TITLE = "~TextAdventure";
-    public static final float SCALE = 2.0f;
-    public static final float V_WIDTH = WIDTH / SCALE;
-    public static final float V_HEIGHT = HEIGHT / SCALE;
+    public static final float V_WIDTH = WIDTH / 2;
+    public static final float V_HEIGHT = HEIGHT / 2;
 
-    // A variable that states if debug mode is draw, render the Box2D Debug lines
+    // A variable that screens if debug mode is draw, render the Box2D Debug lines
     public static boolean DEBUG = false;
     public static boolean RENDER = true;
 
@@ -27,8 +26,8 @@ public class NotTextAdventure extends Game {
     public ShapeRenderer shapeRenderer;
 
     // Declare screens that will later be loaded
-    public LoadingState loadingState;
-    public PlayState playState;
+    public LoadingScreen loadingScreen;
+    public PlayScreen playScreen;
 
     // Asset manager is used to loading assets in the beginning then referenced later
     public AssetManager assets;
@@ -43,14 +42,13 @@ public class NotTextAdventure extends Game {
         // Instantiate Asset Manager
         assets = new AssetManager();
 
-        // Instantiate states
-        loadingState = new LoadingState(this);
-        playState = new PlayState(this);
-
+        // Instantiate screens
+        loadingScreen = new LoadingScreen(this);
+        playScreen = new PlayScreen(this);
 
 
         // Change state to loading
-        this.setScreen(loadingState);
+        this.setScreen(loadingScreen);
 
     }
 
