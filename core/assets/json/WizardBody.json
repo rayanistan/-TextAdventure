@@ -1,0 +1,17 @@
+{
+  BodyDef: {
+    BodyType: "DynamicBody",
+    fixedRotation: true,
+    rotation: 0
+  },
+  Fixtures: [
+    {
+      descriptor: "main",
+      shape: "PolygonShape",
+      x: 0,
+      y: 0,
+      density: 1.2,
+      isSensor: false
+    }
+  ]
+}
