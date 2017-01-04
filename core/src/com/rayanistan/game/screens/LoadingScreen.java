@@ -2,7 +2,6 @@ package com.rayanistan.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -48,9 +47,12 @@ public class LoadingScreen extends ScreenAdapter {
     }
 
     private void queueAssets() {
+        // Setup loaders
+        app.assets.setLoader(TiledMap.class, new TmxMapLoader());
+
+        // Load files
         app.assets.load("sprites/npc.atlas", TextureAtlas.class);
         app.assets.load("sprites/player.atlas", TextureAtlas.class);
-        app.assets.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
         app.assets.load("maps/stage1.tmx", TiledMap.class);
     }
 

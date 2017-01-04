@@ -1,5 +1,7 @@
 package com.rayanistan.game;
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -18,7 +20,6 @@ public class NotTextAdventure extends Game {
 
     // A variable that screens if debug mode is draw, render the Box2D Debug lines
     public static boolean DEBUG = false;
-    public static boolean RENDER = true;
 
     // Declare batches for drawing
     // Sprite/Shape Batches are used for displaying geometric figures/ textures on screen
@@ -46,10 +47,17 @@ public class NotTextAdventure extends Game {
         loadingScreen = new LoadingScreen(this);
         playScreen = new PlayScreen(this);
 
-
         // Change state to loading
         this.setScreen(loadingScreen);
 
+    }
+
+    @Override
+    public void render() {
+        super.render();
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) Gdx.app.exit();
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SEMICOLON)) DEBUG = !DEBUG;
     }
 
     @Override

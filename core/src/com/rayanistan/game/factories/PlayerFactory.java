@@ -1,26 +1,26 @@
-package com.rayanistan.game.archetypes;
+package com.rayanistan.game.factories;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.PooledEngine;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.rayanistan.game.components.*;
-import com.rayanistan.game.interfaces.Archetype;
+import com.rayanistan.game.interfaces.Factory;
 import com.rayanistan.game.utils.BodyUtils;
 
-public class PlayerArchetype implements Archetype {
+public class PlayerFactory implements Factory {
 
     private AssetManager assets;
     private Vector2 position;
 
-    public PlayerArchetype(AssetManager assets, Vector2 position) {
+    public PlayerFactory(AssetManager assets, Vector2 position) {
         this.assets = assets;
         this.position = position;
     }
 
-    @Override
     public Entity buildEntity() {
         Entity player = new Entity();
 
@@ -39,14 +39,14 @@ public class PlayerArchetype implements Archetype {
         Animation walking = new Animation(1/16f, assets.get("sprites/player.atlas",
                 TextureAtlas.class).findRegions("walk"));
 
-        Animation jumping = new Animation(1/11f, assets.get("sprites/player.atlas", TextureAtlas.class)
-                .findRegions("jump"));
+        Animation jumping = new Animation(1/11f, assets.get("sprites/player.atlas",
+                TextureAtlas.class).findRegions("jump"));
 
-        animation.animations.put(AnimationComponent.State.IDLE, idle);
+        animation.animations.put(AnimationComponent.State.IDLING, idle);
         animation.animations.put(AnimationComponent.State.WALKING, walking);
         animation.animations.put(AnimationComponent.State.JUMPING, jumping);
 
-        animation.setAnimation(AnimationComponent.State.IDLE, true);
+        animation.setAnimation(AnimationComponent.State.IDLING, true);
 
         // Create sprite by getting first frame of idle
         sprite.sprite.setRegion(animation.getFrame());
@@ -60,7 +60,8 @@ public class PlayerArchetype implements Archetype {
         Vector2 spriteCenter = new Vector2(sprite.sprite.getX() + sprite.sprite.getWidth() / 2,
                 sprite.sprite.getY() + sprite.sprite.getHeight() / 2);
 
-        body.body = BodyUtils.readFromJson(new FileHandle("json/PlayerBody.json"), spriteCenter);
+        body.body = BodyUtils.readFromJson(Gdx.files.internal("settings/playerInfo.json"), spriteCenter);
+
 
         // Set focalPoint.current to true
         focalPoint.current = true;
@@ -77,6 +78,11 @@ public class PlayerArchetype implements Archetype {
     }
 
     public static Entity spawnEntity(AssetManager assets, Vector2 location) {
-        return (new PlayerArchetype(assets, location)).buildEntity();
+        return (new PlayerFactory(assets, location)).buildEntity();
+    }
+
+    @Override
+    public Entity spawnEntity(PooledEngine engine) {
+        return null;
     }
 }

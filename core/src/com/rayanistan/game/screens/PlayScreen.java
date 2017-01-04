@@ -1,29 +1,25 @@
 package com.rayanistan.game.screens;
 
-import com.badlogic.ashley.core.Engine;
+import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.MapProperties;
+import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import com.rayanistan.game.NotTextAdventure;
-import com.rayanistan.game.archetypes.PlayerArchetype;
-import com.rayanistan.game.archetypes.WizardArchetype;
-import com.rayanistan.game.interfaces.CollisionListener;
+import com.rayanistan.game.factories.PlayerFactory;
+import com.rayanistan.game.factories.WizardFactory;
 import com.rayanistan.game.systems.*;
 import com.rayanistan.game.utils.BodyUtils;
 import com.rayanistan.game.utils.BoundedCamera;
 import com.rayanistan.game.utils.TiledLevel;
 
-import static com.rayanistan.game.NotTextAdventure.*;
+import static com.rayanistan.game.NotTextAdventure.V_HEIGHT;
+import static com.rayanistan.game.NotTextAdventure.V_WIDTH;
 
 
 public class PlayScreen extends ScreenAdapter {
@@ -31,10 +27,10 @@ public class PlayScreen extends ScreenAdapter {
     private World world;
     private NotTextAdventure app;
 
-    private Viewport viewport;
+    private ExtendViewport viewport;
     private BoundedCamera camera;
 
-    private Engine entityEngine;
+    private PooledEngine entityEngine;
 
     public PlayScreen(final NotTextAdventure app) {
         this.app = app;
@@ -46,18 +42,21 @@ public class PlayScreen extends ScreenAdapter {
         viewport = new ExtendViewport(V_WIDTH, V_HEIGHT, camera);
         viewport.apply(true);
 
-        entityEngine = new Engine();
+        entityEngine = new PooledEngine();
         BodyUtils.setWorld(world);
     }
 
     @Override
     public void show() {
         // TODO: Implement an EventSystem, TiledLevelSystem
-        TiledLevel level = new TiledLevel(1);
-        level.initialize(new FileHandle("json/Level1.json"), app.assets);
+        TiledLevel level = new TiledLevel(app.assets.get("maps/stage1.tmx", TiledMap.class));
+
         level.parseCollisionLayer();
 
         camera.setBounds(0, level.getDimensionsInPixels().x, 0, level.getDimensionsInPixels().y);
+
+        viewport.setMaxWorldWidth(level.getDimensionsInPixels().x);
+        viewport.setMaxWorldHeight(level.getDimensionsInPixels().y);
 
         // Configure all systems
         AnimationSystem animationSystem = new AnimationSystem();
@@ -69,7 +68,7 @@ public class PlayScreen extends ScreenAdapter {
         CameraSystem cameraSystem = new CameraSystem(camera);
         PlayerStateSystem stateSystem = new PlayerStateSystem();
         PlayerCollisionSystem collisionSystem = new PlayerCollisionSystem();
-        TiledRenderingSystem tiledRenderingSystem = new TiledRenderingSystem(level.tileMap, camera);
+        TiledRenderingSystem tiledRenderingSystem = new TiledRenderingSystem(level.map, camera);
 
         entityEngine.addSystem(playerInputSystem);
         entityEngine.addSystem(stateSystem);
@@ -87,13 +86,14 @@ public class PlayScreen extends ScreenAdapter {
         MapObject wizardSpawn = level.getEvents().get("WizardSpawn");
         MapProperties wizardProps = wizardSpawn.getProperties();
 
-        entityEngine.addEntity(PlayerArchetype.spawnEntity(app.assets,
+        entityEngine.addEntity(PlayerFactory.spawnEntity(app.assets,
                 new Vector2(playerProps.get("x", Float.class), playerProps.get("y", Float.class))));
 
-        entityEngine.addEntity(WizardArchetype.spawnEntity(app.assets,
+        entityEngine.addEntity(WizardFactory.spawnEntity(app.assets,
                 new Vector2(wizardProps.get("x", Float.class), wizardProps.get("y", Float.class))));
 
         new CollisionSystem(world).collisionListeners.add(collisionSystem);
+
         entityEngine.addSystem(collisionSystem);
     }
 
@@ -106,7 +106,7 @@ public class PlayScreen extends ScreenAdapter {
     public void render(float delta) {
         super.render(delta);
 
-        Gdx.gl.glClearColor(1, 1, 1, 1);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         entityEngine.update(delta);

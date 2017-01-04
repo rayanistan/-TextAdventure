@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.rayanistan.game.utils.BoundedCamera;
 
+import static com.rayanistan.game.NotTextAdventure.DEBUG;
 import static com.rayanistan.game.utils.Constants.PPM;
 
 public class DebugRenderingSystem extends EntitySystem {
@@ -24,6 +25,7 @@ public class DebugRenderingSystem extends EntitySystem {
     public void update(float deltaTime) {
         super.update(deltaTime);
 
-        debugRenderer.render(world, camera.getDebugMatrix(PPM));
+        if (DEBUG)
+            debugRenderer.render(world, camera.getDebugMatrix(PPM));
     }
 }
