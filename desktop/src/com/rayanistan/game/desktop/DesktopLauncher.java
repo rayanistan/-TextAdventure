@@ -35,6 +35,8 @@ public class DesktopLauncher {
         config.title = TITLE; // TITLE
         config.width = WIDTH; // WIDTH
         config.height = HEIGHT; // HEIGHT
+        config.backgroundFPS = 60;
+        config.foregroundFPS = 60;
 
         // Create Application
         new LwjglApplication(new NotTextAdventure(), config);

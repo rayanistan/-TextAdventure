@@ -1,6 +1,7 @@
-package com.rayanistan.game.archetypes;
+package com.rayanistan.game.factories;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -8,19 +9,18 @@ import com.badlogic.gdx.math.Vector2;
 import com.rayanistan.game.components.AnimationComponent;
 import com.rayanistan.game.components.SpriteComponent;
 import com.rayanistan.game.components.TransformComponent;
-import com.rayanistan.game.interfaces.Archetype;
+import com.rayanistan.game.interfaces.Factory;
 
-public class WizardArchetype implements Archetype {
+public class WizardFactory implements Factory {
 
     private AssetManager assets;
     private Vector2 position;
 
-    public WizardArchetype(AssetManager assets, Vector2 position) {
+    public WizardFactory(AssetManager assets, Vector2 position) {
         this.assets = assets;
         this.position = position;
     }
 
-    @Override
     public Entity buildEntity() {
         Entity wizard = new Entity();
 
@@ -33,8 +33,8 @@ public class WizardArchetype implements Archetype {
         Animation idle = new Animation(0.75f, assets.get("sprites/npc.atlas",
                 TextureAtlas.class).findRegions("w"));
 
-        animation.animations.put(AnimationComponent.State.IDLE, idle);
-        animation.setAnimation(AnimationComponent.State.IDLE, true);
+        animation.animations.put(AnimationComponent.State.IDLING, idle);
+        animation.setAnimation(AnimationComponent.State.IDLING, true);
 
         sprite.sprite.setRegion(animation.getFrame());
         sprite.sprite.setSize(sprite.sprite.getRegionWidth(), sprite.sprite.getRegionHeight());
@@ -51,6 +51,11 @@ public class WizardArchetype implements Archetype {
     }
 
     public static Entity spawnEntity(AssetManager assets, Vector2 position) {
-        return (new WizardArchetype(assets, position)).buildEntity();
+        return (new WizardFactory(assets, position)).buildEntity();
+    }
+
+    @Override
+    public Entity spawnEntity(PooledEngine engine) {
+        return null;
     }
 }

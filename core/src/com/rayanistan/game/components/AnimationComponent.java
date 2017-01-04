@@ -5,18 +5,17 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.ArrayMap;
 
-import static com.rayanistan.game.components.AnimationComponent.State.IDLE;
+import static com.rayanistan.game.components.AnimationComponent.State.IDLING;
 
 public class AnimationComponent implements Component {
     public ArrayMap<State, Animation> animations = new ArrayMap<State, Animation>();
 
     public float timer = 0.0f;
     public boolean isLooping;
-    public State state = IDLE;
+    public State state = IDLING;
 
     public enum State {
-        // States for player
-        IDLE,
+        IDLING,
         WALKING,
         JUMPING
     }

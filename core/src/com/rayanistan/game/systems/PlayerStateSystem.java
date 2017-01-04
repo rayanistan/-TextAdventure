@@ -28,8 +28,8 @@ public class PlayerStateSystem extends IteratingSystem {
         else if (transform.velocity.x != 0 && animation.state != AnimationComponent.State.WALKING) {
             animation.setAnimation(AnimationComponent.State.WALKING, true);
         }
-        else if (transform.velocity.x == 0 && animation.state != AnimationComponent.State.IDLE) {
-            animation.setAnimation(AnimationComponent.State.IDLE, true);
+        else if (transform.velocity.x == 0 && animation.state != AnimationComponent.State.IDLING) {
+            animation.setAnimation(AnimationComponent.State.IDLING, true);
         }
 
     }

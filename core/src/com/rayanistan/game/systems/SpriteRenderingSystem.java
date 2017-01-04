@@ -23,7 +23,7 @@ public class SpriteRenderingSystem extends IteratingSystem {
         this.camera = camera;
 
         this.camera.setToOrtho(false);
-        renderQueue = new Array<SpriteComponent>();
+        renderQueue = new Array<>();
     }
 
     @Override
