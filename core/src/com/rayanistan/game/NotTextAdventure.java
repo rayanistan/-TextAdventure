@@ -26,8 +26,6 @@ public class NotTextAdventure extends Game {
     public SpriteBatch batch;
     public ShapeRenderer shapeRenderer;
 
-    // Declare screens that will later be loaded
-    public LoadingScreen loadingScreen;
     public PlayScreen playScreen;
 
     // Asset manager is used to loading assets in the beginning then referenced later
@@ -43,12 +41,10 @@ public class NotTextAdventure extends Game {
         // Instantiate Asset Manager
         assets = new AssetManager();
 
-        // Instantiate screens
-        loadingScreen = new LoadingScreen(this);
         playScreen = new PlayScreen(this);
 
         // Change state to loading
-        this.setScreen(loadingScreen);
+        this.setScreen(new LoadingScreen(this));
 
     }
 

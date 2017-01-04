@@ -3,50 +3,27 @@ package com.rayanistan.game.factories;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.rayanistan.game.components.*;
-import com.rayanistan.game.interfaces.Factory;
+import com.rayanistan.game.utils.Assets;
 import com.rayanistan.game.utils.BodyUtils;
 
-public class PlayerFactory implements Factory {
+public class PlayerFactory {
 
-    private AssetManager assets;
-    private Vector2 position;
-
-    public PlayerFactory(AssetManager assets, Vector2 position) {
-        this.assets = assets;
-        this.position = position;
-    }
-
-    public Entity buildEntity() {
-        Entity player = new Entity();
+    public static Entity spawnEntity(PooledEngine engine, Vector2 position) {
+        Entity player = engine.createEntity();
 
         // Create Components
-        AnimationComponent animation = new AnimationComponent();
-        SpriteComponent sprite = new SpriteComponent();
-        BodyComponent body = new BodyComponent();
-        PlayerComponent component = new PlayerComponent();
-        TransformComponent transform = new TransformComponent();
-        FocalPointComponent focalPoint = new FocalPointComponent();
+        AnimationComponent animation         = engine.createComponent(AnimationComponent.class);
+        SpriteComponent sprite               = engine.createComponent(SpriteComponent.class);
+        BodyComponent body                   = engine.createComponent(BodyComponent.class);
+        PlayerComponent component            = engine.createComponent(PlayerComponent.class);
+        TransformComponent transform         = engine.createComponent(TransformComponent.class);
+        FocalPointComponent focalPoint       = engine.createComponent(FocalPointComponent.class);
 
-        // Create Animation + State for player
-        Animation idle = new Animation(0.75f, assets.get("sprites/player.atlas",
-                TextureAtlas.class).findRegions("nothing_idle"));
-
-        Animation walking = new Animation(1/16f, assets.get("sprites/player.atlas",
-                TextureAtlas.class).findRegions("walk"));
-
-        Animation jumping = new Animation(1/11f, assets.get("sprites/player.atlas",
-                TextureAtlas.class).findRegions("jump"));
-
-        animation.animations.put(AnimationComponent.State.IDLING, idle);
-        animation.animations.put(AnimationComponent.State.WALKING, walking);
-        animation.animations.put(AnimationComponent.State.JUMPING, jumping);
-
-        animation.setAnimation(AnimationComponent.State.IDLING, true);
+        animation.animations.put(AnimationComponent.State.IDLING, Assets.getPlayerIdling());
+        animation.animations.put(AnimationComponent.State.WALKING, Assets.getPlayerWalking());
+        animation.animations.put(AnimationComponent.State.JUMPING, Assets.getPlayerJumping());
 
         // Create sprite by getting first frame of idle
         sprite.sprite.setRegion(animation.getFrame());
@@ -74,15 +51,8 @@ public class PlayerFactory implements Factory {
         player.add(component);
         player.add(transform);
 
+        engine.addEntity(player);
+
         return player;
-    }
-
-    public static Entity spawnEntity(AssetManager assets, Vector2 location) {
-        return (new PlayerFactory(assets, location)).buildEntity();
-    }
-
-    @Override
-    public Entity spawnEntity(PooledEngine engine) {
-        return null;
     }
 }

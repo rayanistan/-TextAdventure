@@ -14,6 +14,7 @@ import com.rayanistan.game.NotTextAdventure;
 import com.rayanistan.game.factories.PlayerFactory;
 import com.rayanistan.game.factories.WizardFactory;
 import com.rayanistan.game.systems.*;
+import com.rayanistan.game.utils.Assets;
 import com.rayanistan.game.utils.BodyUtils;
 import com.rayanistan.game.utils.BoundedCamera;
 import com.rayanistan.game.utils.TiledLevel;
@@ -48,8 +49,7 @@ public class PlayScreen extends ScreenAdapter {
 
     @Override
     public void show() {
-        // TODO: Implement an EventSystem, TiledLevelSystem
-        TiledLevel level = new TiledLevel(app.assets.get("maps/stage1.tmx", TiledMap.class));
+        TiledLevel level = new TiledLevel(Assets.getMap1());
 
         level.parseCollisionLayer();
 
@@ -70,6 +70,7 @@ public class PlayScreen extends ScreenAdapter {
         PlayerCollisionSystem collisionSystem = new PlayerCollisionSystem();
         TiledRenderingSystem tiledRenderingSystem = new TiledRenderingSystem(level.map, camera);
 
+
         entityEngine.addSystem(playerInputSystem);
         entityEngine.addSystem(stateSystem);
         entityEngine.addSystem(animationSystem);
@@ -86,11 +87,11 @@ public class PlayScreen extends ScreenAdapter {
         MapObject wizardSpawn = level.getEvents().get("WizardSpawn");
         MapProperties wizardProps = wizardSpawn.getProperties();
 
-        entityEngine.addEntity(PlayerFactory.spawnEntity(app.assets,
-                new Vector2(playerProps.get("x", Float.class), playerProps.get("y", Float.class))));
+        PlayerFactory.spawnEntity(entityEngine, new Vector2(playerProps.get("x", Float.class),
+                playerProps.get("y", Float.class)));
 
-        entityEngine.addEntity(WizardFactory.spawnEntity(app.assets,
-                new Vector2(wizardProps.get("x", Float.class), wizardProps.get("y", Float.class))));
+        WizardFactory.spawnEntity(entityEngine, new Vector2(wizardProps.get("x", Float.class),
+                wizardProps.get("y", Float.class)));
 
         new CollisionSystem(world).collisionListeners.add(collisionSystem);
 
