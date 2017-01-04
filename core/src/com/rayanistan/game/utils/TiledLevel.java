@@ -62,8 +62,6 @@ public class TiledLevel {
         }
     }
 
-    public void populateEvents() {}
-
     public MapObjects getEvents() {
         return eventLayer.getObjects();
     }

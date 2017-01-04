@@ -26,6 +26,6 @@ public class DebugRenderingSystem extends EntitySystem {
         super.update(deltaTime);
 
         if (DEBUG)
-            debugRenderer.render(world, camera.getDebugMatrix(PPM));
+            debugRenderer.render(world, camera.getDebugMatrix());
     }
 }

@@ -17,18 +17,14 @@ g
   size: 11, 14
   orig: 18, 21
   offset: 4, 5
-  index: 2
+  index: 1
 g
   rotate: false
   xy: 64, 4
   size: 11, 14
   orig: 18, 21
   offset: 4, 5
-<<<<<<< HEAD
-  index: 1
-=======
   index: 2
->>>>>>> 4b6d825932bf6e1601206158aa64f1fca3605921
 g
   rotate: false
   xy: 64, 4
