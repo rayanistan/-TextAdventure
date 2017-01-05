@@ -12,7 +12,7 @@ import com.rayanistan.game.utils.Mappers;
 public class SpriteRenderingSystem extends IteratingSystem {
 
     private SpriteBatch batch;
-    public OrthographicCamera camera;
+    private OrthographicCamera camera;
     private Array<SpriteComponent> renderQueue;
 
     public SpriteRenderingSystem(SpriteBatch batch, OrthographicCamera camera) {
@@ -34,12 +34,10 @@ public class SpriteRenderingSystem extends IteratingSystem {
         batch.setProjectionMatrix(camera.combined);
 
         batch.begin();
-
         for (SpriteComponent s : renderQueue) {
             s.sprite.draw(batch);
 
         }
-
         batch.end();
 
         renderQueue.clear();
@@ -48,7 +46,6 @@ public class SpriteRenderingSystem extends IteratingSystem {
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
         SpriteComponent sprite = Mappers.spriteMapper.get(entity);
-
         renderQueue.add(sprite);
     }
 }

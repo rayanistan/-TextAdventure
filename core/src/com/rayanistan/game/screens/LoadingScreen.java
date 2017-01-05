@@ -13,6 +13,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.rayanistan.game.NotTextAdventure;
+import com.rayanistan.game.utils.Assets;
 
 import static com.rayanistan.game.NotTextAdventure.V_HEIGHT;
 import static com.rayanistan.game.NotTextAdventure.V_WIDTH;
@@ -47,21 +48,15 @@ public class LoadingScreen extends ScreenAdapter {
     }
 
     private void queueAssets() {
-        // Setup loaders
-        app.assets.setLoader(TiledMap.class, new TmxMapLoader());
-
-        // Load files
-        app.assets.load("sprites/npc.atlas", TextureAtlas.class);
-        app.assets.load("sprites/player.atlas", TextureAtlas.class);
-        app.assets.load("maps/stage1.tmx", TiledMap.class);
+        Assets.loadAll(app.assets);
     }
 
     public void update(float dt) {
         // Use linear interpolation to get a smooth loading bar
-        progress = MathUtils.lerp(progress, app.assets.getProgress(), .1f);
+        progress = MathUtils.lerp(progress, Assets.am.getProgress(), .1f);
 
         // If finished updating & progress bar is complete, then change state to PLAY
-        if (app.assets.update() && progress >= app.assets.getProgress() - .00001f) {
+        if (Assets.am.update() && progress >= Assets.am.getProgress() - .00001f) {
             app.setScreen(app.playScreen);
         }
     }

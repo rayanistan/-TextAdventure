@@ -17,7 +17,11 @@ g
   size: 11, 14
   orig: 18, 21
   offset: 4, 5
+<<<<<<< HEAD
   index: 3
+=======
+  index: 1
+>>>>>>> fc0472712ded7ef8008c7cbb6cac5ae3b04095cf
 g
   rotate: false
   xy: 64, 4
