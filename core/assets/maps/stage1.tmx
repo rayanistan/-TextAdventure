@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="8" height="6" tilewidth="64" tileheight="64" nextobjectid="10">
+ <properties>
+  <property name="collisionlayer" value="collisions"/>
+  <property name="eventlayer" value="events"/>
+ </properties>
  <tileset firstgid="1" name="main" tilewidth="64" tileheight="64" tilecount="112" columns="8">
   <image source="../tilesets/scene1_tileset.png" width="512" height="896"/>
  </tileset>
@@ -40,7 +44,15 @@
   <object id="6" x="0" y="320" width="512" height="64"/>
  </objectgroup>
  <objectgroup name="events">
-  <object id="8" name="PlayerSpawn" type="Spawn" x="137.333" y="287.667" width="32" height="32"/>
-  <object id="9" name="WizardSpawn" type="Spawn" x="408.5" y="291.333" width="16" height="28"/>
+  <object id="8" name="PlayerSpawn" type="Spawn" x="137.333" y="287.667" width="32" height="32">
+   <properties>
+    <property name="factory" value="com.rayanistan.game.factories.PlayerFactory"/>
+   </properties>
+  </object>
+  <object id="9" name="WizardSpawn" type="Spawn" x="408.5" y="291.333" width="16" height="28">
+   <properties>
+    <property name="factory" value="com.rayanistan.game.factories.WizardFactory"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

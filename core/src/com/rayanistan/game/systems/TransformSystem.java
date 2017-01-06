@@ -3,7 +3,6 @@ package com.rayanistan.game.systems;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.rayanistan.game.components.BodyComponent;
@@ -24,7 +23,7 @@ public class TransformSystem extends IteratingSystem {
         TransformComponent transform = Mappers.transformMapper.get(entity);
         SpriteComponent sprite = Mappers.spriteMapper.get(entity);
 
-        // BodyComponent => TransformComponent
+        // BodyComponent => TransformComponent => SpriteComponent (TODO: Replace with TextureComponent)
         if (transform != null) {
             Vector2 position = body.body.getPosition();
             transform.position = position.scl(Constants.PPM);
@@ -34,9 +33,9 @@ public class TransformSystem extends IteratingSystem {
                 sprite.sprite.setPosition(transform.position.x - sprite.sprite.getRegionWidth() / 2,
                         transform.position.y - sprite.sprite.getRegionHeight() / 2);
 
+                sprite.sprite.setOriginCenter();
                 sprite.sprite.setRotation(transform.rotation);
-
-                sprite.sprite.setFlip(transform.orientation.spriteFlip, false);
+                sprite.sprite.setFlip(transform.orientation.value, false);
             }
         }
     }

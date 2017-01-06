@@ -2,7 +2,7 @@ package com.rayanistan.game.events;
 
 import com.badlogic.gdx.physics.box2d.Fixture;
 
-public class CollisionDescriptor {
+public class CollisionEvent {
 
     public Fixture a;
     public Fixture b;
@@ -13,7 +13,7 @@ public class CollisionDescriptor {
         END_CONTACT
     }
 
-    public CollisionDescriptor(Fixture a, Fixture b, Type t) {
+    public CollisionEvent(Fixture a, Fixture b, Type t) {
         this.a = a;
         this.b = b;
         this.t = t;

@@ -22,14 +22,14 @@ public class PlayerStateSystem extends IteratingSystem {
         PlayerComponent player = Mappers.playerMapper.get(entity);
 
         if (player.numOfContactsWithFoot < 1) {
-            animation.setAnimation(AnimationComponent.State.JUMPING, false);
+            animation.setAnimation(PlayerComponent.State.JUMPING);
         }
 
-        else if (transform.velocity.x != 0 && animation.state != AnimationComponent.State.WALKING) {
-            animation.setAnimation(AnimationComponent.State.WALKING, true);
+        else if (transform.velocity.x != 0 && animation.state != PlayerComponent.State.WALKING) {
+            animation.setAnimation(PlayerComponent.State.WALKING);
         }
-        else if (transform.velocity.x == 0 && animation.state != AnimationComponent.State.IDLING) {
-            animation.setAnimation(AnimationComponent.State.IDLING, true);
+        else if (transform.velocity.x == 0 && animation.state != PlayerComponent.State.IDLING) {
+            animation.setAnimation(PlayerComponent.State.IDLING);
         }
 
     }

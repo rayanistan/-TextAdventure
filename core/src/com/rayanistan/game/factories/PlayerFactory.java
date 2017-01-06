@@ -8,7 +8,7 @@ import com.rayanistan.game.components.*;
 import com.rayanistan.game.utils.Assets;
 import com.rayanistan.game.utils.BodyUtils;
 
-public class PlayerFactory {
+public class PlayerFactory implements Factory {
 
     public static Entity spawnEntity(PooledEngine engine, Vector2 position) {
         Entity player = engine.createEntity();
@@ -21,9 +21,10 @@ public class PlayerFactory {
         TransformComponent transform         = engine.createComponent(TransformComponent.class);
         FocalPointComponent focalPoint       = engine.createComponent(FocalPointComponent.class);
 
-        animation.animations.put(AnimationComponent.State.IDLING, Assets.getPlayerIdling());
-        animation.animations.put(AnimationComponent.State.WALKING, Assets.getPlayerWalking());
-        animation.animations.put(AnimationComponent.State.JUMPING, Assets.getPlayerJumping());
+        animation.animations.put(PlayerComponent.State.IDLING, Assets.getPlayerIdling());
+        animation.animations.put(PlayerComponent.State.WALKING, Assets.getPlayerWalking());
+        animation.animations.put(PlayerComponent.State.JUMPING, Assets.getPlayerJumping());
+        animation.setAnimation(PlayerComponent.State.IDLING);
 
         // Create sprite by getting first frame of idle
         sprite.sprite.setRegion(animation.getFrame());
@@ -38,7 +39,6 @@ public class PlayerFactory {
                 sprite.sprite.getY() + sprite.sprite.getHeight() / 2);
 
         body.body = BodyUtils.readFromJson(Gdx.files.internal("settings/playerInfo.json"), spriteCenter);
-
 
         // Set focalPoint.current to true
         focalPoint.current = true;

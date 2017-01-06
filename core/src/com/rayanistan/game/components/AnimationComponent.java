@@ -4,29 +4,27 @@ import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.ArrayMap;
+import com.badlogic.gdx.utils.Pool;
 
-import static com.rayanistan.game.components.AnimationComponent.State.IDLING;
-
-public class AnimationComponent implements Component {
-    public ArrayMap<State, Animation> animations = new ArrayMap<State, Animation>();
+public class AnimationComponent<T> implements Component, Pool.Poolable {
+    public ArrayMap<T, Animation> animations = new ArrayMap<>();
 
     public float timer = 0.0f;
-    public boolean isLooping;
-    public State state = IDLING;
 
-    public enum State {
-        IDLING,
-        WALKING,
-        JUMPING
-    }
+    public T state;
 
     public TextureRegion getFrame() {
-        return animations.get(state).getKeyFrame(timer, isLooping);
+        return animations.get(state).getKeyFrame(timer);
     }
 
-    public void setAnimation(State state, boolean isLooping) {
+    public void setAnimation(T state) {
         this.state = state;
-        this.isLooping = isLooping;
+        timer = 0.0f;
+    }
+
+    @Override
+    public void reset() {
+        animations = new ArrayMap<>();
         timer = 0.0f;
     }
 }
