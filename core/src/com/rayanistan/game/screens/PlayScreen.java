@@ -6,7 +6,6 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapProperties;
-import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
@@ -32,24 +31,26 @@ public class PlayScreen extends ScreenAdapter {
     private BoundedCamera camera;
 
     private PooledEngine entityEngine;
+    private TiledLevel level;
 
     public PlayScreen(final NotTextAdventure app) {
         this.app = app;
 
         this.world = new World(new Vector2(0, -9.8f), true);
+        this.entityEngine = new PooledEngine();
 
         camera = new BoundedCamera();
 
         viewport = new ExtendViewport(V_WIDTH, V_HEIGHT, camera);
         viewport.apply(true);
 
-        entityEngine = new PooledEngine();
         BodyUtils.setWorld(world);
     }
 
     @Override
     public void show() {
-        TiledLevel level = new TiledLevel(Assets.getMap1());
+        // TODO: Integrate all Ashley stuff into TiledLevel.java
+        level = new TiledLevel(Assets.getMap1(), entityEngine);
 
         level.parseCollisionLayer();
 
@@ -70,7 +71,6 @@ public class PlayScreen extends ScreenAdapter {
         PlayerCollisionSystem collisionSystem = new PlayerCollisionSystem();
         TiledRenderingSystem tiledRenderingSystem = new TiledRenderingSystem(level.map, camera);
 
-
         entityEngine.addSystem(playerInputSystem);
         entityEngine.addSystem(stateSystem);
         entityEngine.addSystem(animationSystem);
@@ -81,19 +81,9 @@ public class PlayScreen extends ScreenAdapter {
         entityEngine.addSystem(physicsSystem);
         entityEngine.addSystem(debugRenderingSystem);
 
-        MapObject playerSpawn = level.getEvents().get("PlayerSpawn");
-        MapProperties playerProps = playerSpawn.getProperties();
+        level.fireSpawnEvents();
 
-        MapObject wizardSpawn = level.getEvents().get("WizardSpawn");
-        MapProperties wizardProps = wizardSpawn.getProperties();
-
-        PlayerFactory.spawnEntity(entityEngine, new Vector2(playerProps.get("x", Float.class),
-                playerProps.get("y", Float.class)));
-
-        WizardFactory.spawnEntity(entityEngine, new Vector2(wizardProps.get("x", Float.class),
-                wizardProps.get("y", Float.class)));
-
-        new CollisionSystem(world).collisionListeners.add(collisionSystem);
+        new CollisionSystem(world).add(collisionSystem);
 
         entityEngine.addSystem(collisionSystem);
     }
@@ -111,5 +101,12 @@ public class PlayScreen extends ScreenAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         entityEngine.update(delta);
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        level.dispose();
+        world.dispose();
     }
 }

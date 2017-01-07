@@ -1,39 +1,33 @@
 package com.rayanistan.game.systems;
 
+import com.badlogic.ashley.signals.Listener;
+import com.badlogic.ashley.signals.Signal;
 import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.utils.Array;
-import com.rayanistan.game.interfaces.CollisionListener;
+import com.rayanistan.game.events.CollisionEvent;
+import com.rayanistan.game.utils.ContactAdapter;
 
-public class CollisionSystem implements ContactListener {
+public class CollisionSystem extends ContactAdapter {
 
-    public Array<CollisionListener> collisionListeners;
+    private Signal<CollisionEvent> collisionSignal;
 
     public CollisionSystem(World world) {
         world.setContactListener(this);
-        this.collisionListeners = new Array<CollisionListener>();
+        this.collisionSignal = new Signal<>();
     }
 
     @Override
     public void beginContact(Contact contact) {
-        for (CollisionListener listener : collisionListeners) {
-            listener.onBeginContact(contact.getFixtureA(), contact.getFixtureB());
-        }
+        collisionSignal.dispatch(new CollisionEvent(contact.getFixtureA(),
+                contact.getFixtureB(), CollisionEvent.Type.BEGIN_CONTACT));
     }
 
     @Override
     public void endContact(Contact contact) {
-        for (CollisionListener listener : collisionListeners) {
-            listener.onEndContact(contact.getFixtureA(), contact.getFixtureB());
-        }
+        collisionSignal.dispatch(new CollisionEvent(contact.getFixtureA(),
+                contact.getFixtureB(), CollisionEvent.Type.END_CONTACT));
     }
 
-    @Override
-    public void preSolve(Contact contact, Manifold oldManifold) {
-
-    }
-
-    @Override
-    public void postSolve(Contact contact, ContactImpulse impulse) {
-
+    public void add(Listener<CollisionEvent> listener) {
+        collisionSignal.add(listener);
     }
 }

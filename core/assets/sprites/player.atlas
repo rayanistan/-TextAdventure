@@ -17,14 +17,14 @@ jump
   size: 25, 30
   orig: 32, 33
   offset: 4, 0
-  index: 4
+  index: 1
 jump
   rotate: false
   xy: 568, 2
   size: 25, 30
   orig: 32, 33
   offset: 4, 0
-  index: 1
+  index: 4
 jump
   rotate: false
   xy: 595, 2
@@ -52,14 +52,14 @@ nothing_idle
   size: 25, 30
   orig: 29, 33
   offset: 0, 1
-  index: 2
+  index: 1
 nothing_idle
   rotate: false
   xy: 622, 2
   size: 25, 30
   orig: 29, 33
   offset: 0, 1
-  index: 1
+  index: 2
 nothing_idle
   rotate: false
   xy: 649, 2
