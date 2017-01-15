@@ -24,18 +24,14 @@ g
   size: 11, 14
   orig: 18, 21
   offset: 4, 5
-  index: 3
+  index: 2
 g
   rotate: false
   xy: 64, 4
   size: 11, 14
   orig: 18, 21
   offset: 4, 5
-<<<<<<< HEAD
   index: 1
-=======
-  index: 2
->>>>>>> f2b6d35e9b672ddb4352981621cbc5b9dd3d3daf
 g
   rotate: false
   xy: 77, 4
@@ -63,18 +59,14 @@ s
   size: 15, 14
   orig: 19, 20
   offset: 4, 4
-  index: 2
+  index: 3
 s
   rotate: false
   xy: 2, 4
   size: 15, 14
   orig: 19, 20
   offset: 4, 4
-<<<<<<< HEAD
   index: 2
-=======
-  index: 3
->>>>>>> f2b6d35e9b672ddb4352981621cbc5b9dd3d3daf
 s
   rotate: false
   xy: 19, 4
@@ -102,11 +94,7 @@ w
   size: 12, 16
   orig: 16, 21
   offset: 1, 5
-<<<<<<< HEAD
   index: 3
-=======
-  index: 2
->>>>>>> f2b6d35e9b672ddb4352981621cbc5b9dd3d3daf
 w
   rotate: false
   xy: 36, 2
