@@ -56,6 +56,9 @@ public class Assets {
     private static Array<TextureAtlas.AtlasRegion> getWizardIdlingArray() {
         return am.get(NPC_ATLAS, TextureAtlas.class).findRegions("w");
     }
+    private static Array<TextureAtlas.AtlasRegion> getGunsmithIdlingArray(){
+        return am.get(NPC_ATLAS, TextureAtlas.class).findRegions("g");
+    }
 
     public static Animation getPlayerWalking() {
         return new Animation(1f / 16f, getPlayerWalkingArray(), Animation.PlayMode.LOOP);
@@ -71,6 +74,9 @@ public class Assets {
 
     public static Animation getWizardIdling() {
         return new Animation(3f/4f, getWizardIdlingArray(), Animation.PlayMode.LOOP);
+    }
+    public static Animation getGunsmithIdling(){
+        return new Animation (3f/4f, getGunsmithIdlingArray(), Animation.PlayMode.LOOP);
     }
 
     public static TiledMap getMap1() {

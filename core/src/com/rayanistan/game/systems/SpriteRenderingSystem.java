@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.Array;
 import com.rayanistan.game.components.SpriteComponent;
 import com.rayanistan.game.utils.Mappers;
 
+
 public class SpriteRenderingSystem extends IteratingSystem {
 
     private SpriteBatch batch;
