@@ -30,7 +30,7 @@ public class GunsmithFactory implements Factory {
         sprite.sprite.setRegion(animation.getFrame());
         sprite.sprite.setSize(sprite.sprite.getRegionWidth(), sprite.sprite.getRegionHeight());
 
-        transform.scale = new Vector2(1.2f, 2.2f);
+        transform.scale = new Vector2(2.0f, 2.2f);
         transform.rotation = 60;
         sprite.sprite.setScale(transform.scale.x, transform.scale.y);
         sprite.sprite.setPosition(position.x, position.y);

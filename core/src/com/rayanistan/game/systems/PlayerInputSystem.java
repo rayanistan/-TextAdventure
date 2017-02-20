@@ -25,7 +25,7 @@ public class PlayerInputSystem extends IteratingSystem {
         BodyComponent body = Mappers.physicsMapper.get(entity);
         PlayerComponent player = Mappers.playerMapper.get(entity);
 
-        float speed = 350 * transform.scale.x * dt;
+        float speed = 550 * transform.scale.x * dt;
 
         if (Gdx.input.isKeyPressed(A)) {
             speed *= -1;

@@ -6,6 +6,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.rayanistan.game.screens.LoadingScreen;
+import com.rayanistan.game.screens.MainMenuScreen;
 import com.rayanistan.game.screens.PlayScreen;
 
 public class NotTextAdventure extends Game {

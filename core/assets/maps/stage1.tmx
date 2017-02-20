@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="8" height="6" tilewidth="64" tileheight="64" nextobjectid="14">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="8" height="6" tilewidth="64" tileheight="64" nextobjectid="16">
  <properties>
   <property name="collisionlayer" value="collisions"/>
   <property name="eventlayer" value="events"/>
@@ -41,7 +41,7 @@
   <object id="2" x="-1" y="383">
    <polyline points="0,0 1,-383 513,-383 513,1 1,1"/>
   </object>
-  <object id="6" x="0" y="320" width="512" height="64"/>
+  <object id="6" x="-1" y="321" width="512" height="64"/>
  </objectgroup>
  <objectgroup name="events">
   <object id="8" name="PlayerSpawn" type="Spawn" x="137.333" y="287.667" width="32" height="32">
@@ -52,11 +52,6 @@
   <object id="9" name="WizardSpawn" type="Spawn" x="408.5" y="291.333" width="16" height="28">
    <properties>
     <property name="factory" value="com.rayanistan.game.factories.WizardFactory"/>
-   </properties>
-  </object>
-  <object id="10" name="GunsmithSpawn" type="Spawn" x="265" y="286" width="42" height="34">
-   <properties>
-    <property name="factory" value="com.rayanistan.game.factories.GunsmithFactory"/>
    </properties>
   </object>
  </objectgroup>

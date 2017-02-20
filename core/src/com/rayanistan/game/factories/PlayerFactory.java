@@ -31,7 +31,7 @@ public class PlayerFactory implements Factory {
         sprite.sprite.setSize(sprite.sprite.getRegionWidth(), sprite.sprite.getRegionHeight());
         sprite.sprite.setPosition(position.x, position.y);
 
-        transform.scale = new Vector2(1f, 1f);
+        transform.scale = new Vector2(.7f, .7f);
         sprite.sprite.setScale(transform.scale.x, transform.scale.y);
 
         // Generate body by using readFromJson

@@ -61,15 +61,15 @@ public class Assets {
     }
 
     public static Animation getPlayerWalking() {
-        return new Animation(1f / 16f, getPlayerWalkingArray(), Animation.PlayMode.LOOP);
+        return new Animation(1f / 25f, getPlayerWalkingArray(), Animation.PlayMode.LOOP);
     }
 
     public static Animation getPlayerIdling() {
-        return new Animation(3f / 4f, getPlayerIdlingArray(), Animation.PlayMode.LOOP);
+        return new Animation(1f / 13f, getPlayerIdlingArray(), Animation.PlayMode.LOOP);
     }
 
     public static Animation getPlayerJumping() {
-        return new Animation(1 / 11f, getPlayerJumpingArray(), Animation.PlayMode.NORMAL);
+        return new Animation(1 / 11f, getPlayerJumpingArray(), Animation.PlayMode.LOOP);
     }
 
     public static Animation getWizardIdling() {
